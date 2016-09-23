@@ -1,5 +1,14 @@
-NanoTwitter
+# nanoTwitter
 
-Hannah Provenza, Xinhao Wang, Yuzhe Chen
+nanoTwitter(nT) is a project for the class CS105b - Software Engineering for Scalability at Brandeis Univerisity. 
+It is a baby version of Twitter designed for the purpose of experimenting with scaling issues.
 
-Project for COSI105 at Brandeis University
+## Authors
+
+* **Hannah Provenza** - Brandeis University
+* **Xinhao Wang** - Brandeis University
+* **Yuzhe Chen** - Brandeis University
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
