@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage{titlesec}
+\usepackage[top=1in,left=1in,right=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%fancy header
+	\pagestyle{fancy}
+	\lhead{\textsc{COSI} 105b}
+	\chead{\textbf{nanoTwitter Schema}}
+	\rhead{\today}
+	\lfoot{}
+	\cfoot{\thepage\ of \pageref{LastPage}}
+	\rfoot{}
+
+\begin{document}
+	\hspace{0cm}
+	\\
+	table users \\
+	\indent id: integer \\
+	\indent name: text \\
+	\indent email: text \\
+	\indent password: text \\
+	\indent bio: text \\
+	\indent timestamp: date \\
+	\\
+	table tweets \\
+	\indent id: integer \\
+	\indent text: text \\
+	\indent user\_id: integer \\
+	\indent timestamp: date \\
+	\\
+	table hashtags \\
+	\indent id: integer \\
+	\indent name: text \\
+	\\
+	table tweets\_hashtags \\
+	\indent id: integer \\
+	\indent tweet\_id: integer \\
+	\indent hashtag\_id: integer \\
+	\\
+	table friends \\
+	\indent id: integer \\
+	\indent user\_id\_follower: integer \\
+	\indent user\_id\_followee: integer \\
+	\\
+	users \\
+	\indent has\_many tweets
+	
+\end{document}

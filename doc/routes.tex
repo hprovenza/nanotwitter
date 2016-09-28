@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{titlesec}
+\usepackage[top=1in,left=1in,right=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,      
+    urlcolor=black,
+}
+%fancy header
+	\pagestyle{fancy}
+	\lhead{\textsc{COSI} 105b}
+	\chead{\textbf{nanoTwitter Routes}}
+	\rhead{\today}
+	\lfoot{}
+	\cfoot{\thepage\ of \pageref{LastPage}}
+	\rfoot{}
+
+\begin{document}
+	\noindent note: routes starting with * are of low priority \\
+	reference: \href{http://cosi105b-f2016.s3-website-us-west-2.amazonaws.com/content/nt/01_nt_functionality.md/}{\underline{nano Twitter Functionality}}
+	\section{Basic path}
+	HTTP GET
+	\begin{itemize}
+		\item / (the home page with log in option; if logged in, redirect to user's home timeline)
+		\item /login (page specifically for logging in)
+		\item /logout (page after the user logs out)
+		\item /user/register (page for creating a new account)
+		\item /home (show a user's home timeline; if not logged in, redirect to the home page)
+		\item /browse (see the last n tweets by any user)
+		\item /user/$<$user\_id$>$ (see the last n tweet by this user)
+		\item /friends (show whom the user is following)
+		\item /followers (show who are following this user)
+		\item */search (page for search)
+		\item */search/tweets?q=$<$query$>$ (page of search results for tweets)
+		\item */search/users?q=$<$query$>$ (page of search results for users)
+		\item */remove\_friend (unfollow a user)
+	\end{itemize}
+	HTTP POST
+	\begin{itemize}
+		\item /user/$<$user\_id$>$/tweet (for sending tweets)
+		\item /user/$<$user\_id$>$/follow (for following other users)
+		\item /user/$<$user\_id$>$/unfollow (for unfollowing other users)
+	\end{itemize}
+	
+	\section{API}
+	HTTP GET
+	\begin{itemize}
+		\item /api/v1/tweets/$<$tweet\_id$>$ (return tweet with id)
+		\item /api/v1/users/$<$user\_id$>$ (return user information)
+		\item /api/v1/tweets/recent (return the recent n tweets)
+		\item /api/v1/users/$<$user\_id$>$/tweets (return the user's recent tweets)
+		\item /api/v1/users/$<$user\_id$>$/friends (return all users ids that the user is following)
+		\item /api/v1/users/$<$user\_id$>$/followers (return all followers ids of the user)
+	\end{itemize}
+	HTTP POST
+	\begin{itemize}
+		\item /api/v1/tweets/update (send a tweet)
+		\item /api/v1/users/follow (follow a user)
+		\item */api/v1/users/unfollow (unfollow a user)
+	\end{itemize}
+	
+	\section{Test interface}
+	In general, $<$user\_id$>$ = ``testuser"
+	\begin{itemize}
+		\item /test/reset/all (delete all users, tweets, follows)
+		\item /test/reset/$<$user\_id$>$ (delete and recreate this user)
+		\item /test/status (report how many users, follows, and tweets are there, etc.)
+		\item /test/users/create?count=\textbf{u}\& tweets=\textbf{c} (create \textbf{u} fake users and each gets \textbf{c} fake tweets)
+		\item /test/user/$<$user\_id$>$/tweets?count=\textbf{t} (generate \textbf{t} new fake tweets for this user)
+		\item /test/user/$<$user\_id$>$/follow?count=\textbf{n} (randomly select \textbf{n} users to follow this user)
+
+	\end{itemize}
+\end{document}

@@ -2,5 +2,7 @@
 *.aux
 *.log
 *.synctex.gz
-*.tex
 *.out
+
+#ignore IDE metadata
+.idea/
