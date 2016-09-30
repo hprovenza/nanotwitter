@@ -16,7 +16,7 @@ helpers do
     # first try, would probably need fix
     if @auth.provided? && @auth.basic? && @auth.credentials
       # need migration first
-      user = User.find_by(name: @auth.credentials[0], password: @auth.credentials[1])
+      user = User.find_by(username: @auth.credentials[0], password: @auth.credentials[1])
       return !user.nil?
     else
       return false
