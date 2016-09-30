@@ -1,6 +1,6 @@
 # nanoTwitter
 
-nanoTwitter(nT) is a project for the class CS105b - Software Engineering for Scalability at Brandeis Univerisity. 
+nanoTwitter(nT) is a project for the class CS105b - Software Engineering for Scalability at Brandeis Univerisity.
 It is a baby version of Twitter designed for the purpose of experimenting with scaling issues.
 
 ## Authors
@@ -8,6 +8,10 @@ It is a baby version of Twitter designed for the purpose of experimenting with s
 * **Hannah Provenza** - Brandeis University
 * **Xinhao Wang** - Brandeis University
 * **Yuzhe Chen** - Brandeis University
+
+## Demo
+
+[https://reptilesplash.herokuapp.com/](https://reptilesplash.herokuapp.com/)
 
 ## License
 
