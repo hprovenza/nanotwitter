@@ -1,5 +1,5 @@
 class CreateTweets < ActiveRecord::Migration[4.2]
-  def up
+  def change
     create_table :tweets do |t|
       t.string :text
       t.integer :user_id

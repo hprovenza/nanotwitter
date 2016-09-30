@@ -1,7 +1,8 @@
 #The environment variable DATABASE_URL should be in the following format:
 # => postgres://{user}:{password}@{host}:{port}/path
+require "zlib"
 configure :production, :development do
-  db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
+  db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/ntdb')
 
   ActiveRecord::Base.establish_connection(
       :adapter => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
