@@ -12,3 +12,8 @@ configure :production, :development do
       :encoding => 'utf8'
   )
 end
+
+configure :test do
+  databases = YAML.load_file("config/database.yml")
+  ActiveRecord::Base.establish_connection(databases['test'])
+end

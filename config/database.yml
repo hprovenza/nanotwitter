@@ -4,3 +4,12 @@ development:
   username: <%= ENV['PG_USER'] %>
   password: <%= ENV['PG_PASS'] %>
   host: localhost
+production:
+  adapter: postgresql
+  database: production
+  username: <%= ENV['PG_USER'] %>
+  password: <%= ENV['PG_PASS'] %>
+  host: localhost
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
