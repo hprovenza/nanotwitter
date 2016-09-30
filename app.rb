@@ -3,26 +3,7 @@ require 'sinatra/activerecord'
 require './config/environments'
 require './models/user'
 
-# might need to implement sessions?
-helpers do
-  def protected!
-    return if authorized?
-    headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
-    halt 401, "Not authorized\n"
-  end
-
-  def authorized?
-    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    # first try, would probably need fix
-    if @auth.provided? && @auth.basic? && @auth.credentials
-      # need migration first
-      user = User.find_by(username: @auth.credentials[0], password: @auth.credentials[1])
-      return !user.nil?
-    else
-      return false
-    end
-  end
-end
+enable :sessions
 
 get '/' do
   erb :index
@@ -32,18 +13,33 @@ get '/login' do
   erb :login
 end
 
+post '/login/submit' do
+  user = User.find_by(email: params["email"], password: params["password"])
+  if user.nil?
+    # loggin failed page
+  else
+    session[:id] = user.id
+    redirect '/home'
+  end
+end
+
 get '/user/register' do
   erb :register
 end
 
 # routes that need authorization
 get '/home' do
-  if authorized?
-    erb :home
+  if sesssion[:id].nil?
+    redirect '/login'
+  end
+  @user = User.find(session[:id])
+  if @user.nil?
+    redirect '/login'
   else
-    redirect '/'
+    erb :home
   end
 end
+
 
 post '/add_user' do
   @user = User.new(params[:user])
