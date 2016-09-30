@@ -11,18 +11,25 @@ helpers do
     halt 401, "Not authorized\n"
   end
 
+  # def authorized?
+  #   @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+  #   # first try, would probably need fix
+  #   if @auth.provided? && @auth.basic? && @auth.credentials
+  #     # need migration first
+  #     user = User.find_by(username: @auth.credentials[0], password: @auth.credentials[1])
+  #     return !user.nil?
+  #   else
+  #     return false
+  #   end
+  # end
   def authorized?
-    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    # first try, would probably need fix
-    if @auth.provided? && @auth.basic? && @auth.credentials
-      # need migration first
-      user = User.find_by(username: @auth.credentials[0], password: @auth.credentials[1])
-      return !user.nil?
-    else
-      return false
-    end
+    #return User.where("username = ? AND password = ?", params[:user][:username], params[:user][:password]).nil?
   end
+
 end
+
+
+
 
 get '/' do
   erb :index
