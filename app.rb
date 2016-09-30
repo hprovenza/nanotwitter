@@ -47,7 +47,10 @@ end
 
 post '/add_user' do
   @user = User.new(params[:user])
-  if @user.save
+  @existing = User.where("username = ?", params[:user][:username])
+  if !@existing.nil?
+    "This username already exists!"
+  elsif @user.save
     redirect '/user/register/success'
   else
     "Sorry, there was an error"
