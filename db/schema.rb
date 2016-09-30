@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 3) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "follows", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "followed_user_id"
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
+    t.string   "username"
     t.string   "email"
     t.string   "password"
     t.string   "bio"

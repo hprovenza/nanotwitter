@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require './config/environments' 
+require './config/environments'
 require './models/user'
 
 # might need to implement sessions?
@@ -43,4 +43,17 @@ get '/home' do
   else
     redirect '/'
   end
+end
+
+post '/add_user' do
+  @user = User.new(params[:user])
+  if @user.save
+    redirect '/user/register/success'
+  else
+    "Sorry, there was an error"
+  end
+end
+
+get '/user/register/success' do
+  erb :register_success
 end
