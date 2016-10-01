@@ -16,7 +16,7 @@ end
 post '/login/submit' do
   user = User.find_by(email: params["email"], password: params["password"])
   if user.nil?
-    # loggin failed page
+    redirect '/'
   else
     session[:id] = user.id
     redirect '/home'
@@ -29,7 +29,7 @@ end
 
 # routes that need authorization
 get '/home' do
-  if sesssion[:id].nil?
+  if session[:id].nil?
     redirect '/login'
   end
   @user = User.find(session[:id])
@@ -55,4 +55,9 @@ end
 
 get '/user/register/success' do
   erb :register_success
+end
+
+get '/logout' do
+  session.clear
+  erb '/'
 end
