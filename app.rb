@@ -49,7 +49,7 @@ post '/user/register' do
   elsif @user.save
     redirect '/user/register/success'
   else
-    "Sorry, there was an error"
+    "Sorry our server died..."
   end
 end
 
