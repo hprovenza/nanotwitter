@@ -1,9 +1,10 @@
 <h3>Log in to nanoTwitter</h3>
-<form action="/login/submit" method="POST">
+<form action="/login" method="POST">
 	Username:<br />
 	<input type="text" name="user[username]" required /><br />
 	Password:<br />
 	<input type="password" name="user[password]" required /><br />
 	<input type="submit" value="Log in" />
 </form>
-Don't have an account? <a href="/user/register">Sign up here!</a>
+Don't have an account? <a href="/user/register">Sign up here!</a><br />
+<%=message%>

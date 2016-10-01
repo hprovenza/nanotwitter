@@ -3,20 +3,32 @@ require 'sinatra/activerecord'
 require './config/environments'
 require './models/user'
 
-enable :sessions
+#enable :sessions
+use Rack::Session::Pool, :expire_after => 2592000
 
 get '/' do
-  erb :index
+  if session[:id].nil?
+    erb :index
+  else
+    @user = User.find(session[:id])
+    if !@user.nil?
+      redirect '/home'
+    else
+      erb :index
+    end
+  end
 end
 
 get '/login' do
-  erb :login
+  erb :login, :locals=>{:message => nil}
 end
 
-post '/login/submit' do
-  @user = User.find_by(username: params[:user][:username], password: params[:user][:password])
+post '/login' do
+  @user = User.find_by(username: params[:user][:username],
+      password: params[:user][:password])
   if @user.nil?
-    "Either username does not exist or wrong password"
+    erb :login, :locals=>{:message =>
+      "Either username does not exist or wrong password"}
   else
     session[:id] = @user.id
     redirect '/home'
@@ -38,6 +50,11 @@ get '/home' do
   else
     erb :home
   end
+end
+
+get '/logout' do
+  session.clear
+  erb :logout
 end
 
 post '/user/register' do
