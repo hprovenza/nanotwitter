@@ -28,9 +28,6 @@ helpers do
 
 end
 
-
-
-
 get '/' do
   erb :index
 end
@@ -40,7 +37,7 @@ get '/login' do
 end
 
 get '/user/register' do
-  erb :register
+  erb :register, :locals=>{:message => nil}
 end
 
 # routes that need authorization
@@ -52,11 +49,12 @@ get '/home' do
   end
 end
 
-post '/add_user' do
+post '/user/register' do
   @user = User.new(params[:user])
   @existing = User.where("username = ?", params[:user][:username])
-  if !@existing.nil?
-    "This username already exists!"
+  if @existing.count != 0
+    erb :register, :locals=>{:message => 
+      "Account already exists! Try a new username or log back in!"}
   elsif @user.save
     redirect '/user/register/success'
   else
