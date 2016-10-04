@@ -76,3 +76,9 @@ end
 get '/user/register/success' do
   erb :register_success
 end
+
+post '/home' do
+  @user = User.find(session[:id])
+  Tweet.new({:text=>params[:tweet], :user_id=>@user.id}).save
+  erb :home
+end

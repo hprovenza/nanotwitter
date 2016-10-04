@@ -2,9 +2,20 @@
 <a href="/logout">Logout</a>
 <br /><br /><br />
 What's on your mind?
-<form action="/path_tbd" method="POST">
-  <textarea style="resize:none" name="tweet" rows="4" cols="50"
+<form action="/home" method="POST">
+  <textarea style="resize:none" name="tweet" rows="4" cols="50" maxlength="140"
   placeholder="Enter tweet here! No more than 140 chars!"></textarea><br />
   <input type="submit" value="Send" /><br />
 </form>
-======Home Timeline======
+<h4>======Home Timeline======</h4>
+<% @followed_user_ids = @user.followed_users.map {|u| u.id} %>
+<% @followed_tweets = Tweet.where(user_id:
+  @followed_user_ids).order(created_at: :desc) %>
+<% @followed_tweets.each do |t| %>
+  <% @username = User.find_by(id: t.user_id).username %>
+  <% @tweet = t.text %>
+  <% @time = t.created_at.to_s %>
+  <li>
+    <%= @username + ": " + @tweet + " | " + @time %>
+  </li>
+<% end %>
