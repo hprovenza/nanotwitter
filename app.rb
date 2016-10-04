@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require './config/environments'
+require './models/follow'
+require './models/tweet'
 require './models/user'
 
 #enable :sessions
@@ -64,6 +66,7 @@ post '/user/register' do
     erb :register, :locals=>{:message =>
       "Account already exists! Try a new username or log back in!"}
   elsif @user.save
+    Follow.new({:user_id=>@user.id, :followed_user_id=>@user.id}).save
     redirect '/user/register/success'
   else
     "Sorry our server is taking a nap"
