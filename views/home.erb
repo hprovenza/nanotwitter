@@ -1,2 +1,10 @@
 <h3>Welcome, <%=@user.username%>! You have logged in now!</h3>
 <a href="/logout">Logout</a>
+<br /><br /><br />
+What's on your mind?
+<form action="/path_tbd" method="POST">
+  <textarea style="resize:none" name="tweet" rows="4" cols="50"
+  placeholder="Enter tweet here! No more than 140 chars!"></textarea><br />
+  <input type="submit" value="Send" /><br />
+</form>
+======Home Timeline======
