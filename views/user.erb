@@ -1,10 +1,12 @@
 <h3><%= @user.username %></h3>
+<p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/">Home</a>  <a href="/browse">Browse</a>
+</p>
 [follow/unfollow button]
 <h4>======Tweets======</h4>
 <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
 <% @tweets.each do |t| %>
   <li>
     <%= t.text %><br />
-    <%= t.created_at.to_s + + " [from: " + request.ip + "]" %>
+    <%= t.created_at.to_s %>
   </li>
 <% end %>

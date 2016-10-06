@@ -1,6 +1,7 @@
 <h3>Welcome, <%=@user.username%>! You have logged in now!</h3>
-<a href="/logout">Logout</a>
-<br /><br /><br />
+<p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/browse">Browse</a>
+</p>
+<br />
 What's on your mind?
 <form action="/home" method="POST">
   <textarea style="resize:none" name="tweet" rows="4" cols="50" maxlength="140"
@@ -17,6 +18,6 @@ What's on your mind?
   <% time = t.created_at.to_s %>
   <li>
     <a href="/user/<%= author.id %>"><%= author.username %></a>
-    <%= ": " + tweet %><br /><%= time + " [from: " + request.ip + "]" %>
+    <%= ": " + tweet %><br /><%= time %>
   </li>
 <% end %>
