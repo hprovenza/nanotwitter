@@ -1,0 +1,10 @@
+<h3><%= @user.username %></h3>
+[follow/unfollow button]
+<h4>======Tweets======</h4>
+<% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
+<% @tweets.each do |t| %>
+  <li>
+    <%= t.text %><br />
+    <%= t.created_at.to_s + + " [from: " + request.ip + "]" %>
+  </li>
+<% end %>

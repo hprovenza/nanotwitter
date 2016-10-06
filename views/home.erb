@@ -12,10 +12,11 @@ What's on your mind?
 <% @followed_tweets = Tweet.where(user_id:
   @followed_user_ids).order(created_at: :desc) %>
 <% @followed_tweets.each do |t| %>
-  <% @username = User.find_by(id: t.user_id).username %>
-  <% @tweet = t.text %>
-  <% @time = t.created_at.to_s %>
+  <% author = User.find_by(id: t.user_id) %>
+  <% tweet = t.text %>
+  <% time = t.created_at.to_s %>
   <li>
-    <%= @username + ": " + @tweet + " | " + @time %>
+    <a href="/user/<%= author.id %>"><%= author.username %></a>
+    <%= ": " + tweet %><br /><%= time + " [from: " + request.ip + "]" %>
   </li>
 <% end %>
