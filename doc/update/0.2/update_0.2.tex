@@ -1,0 +1,21 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{COSI105b}
+\chead{nanoTwitter v0.2 update}
+\rhead{Team Reptile Splash}
+
+\begin{document}
+\begin{enumerate}
+	\item[1.]
+	The work on v0.2 has generally been going well, each member finished their part very promptly, well before the due date.
+	\item[2.]
+	We had some problems implementing the log in/log out feature. Initially we tried to follow the instructions and use Rack::Auth:Basic, but we couldn't figure out how to incorporate it into our application, which uses HTML forms for logging in. We ended up using Sinatra's Sessions feature, which solved our initial problem, and also made logging out very easy to implement.\\
+	We also had some trouble trying to make our code work in the Github-Codeship-Heroku pipeline, but we eventually made it work, our app can now be accessed from Heroku.
+	\item[3.]
+	In terms of remaining problems, getting and storing user password as plain text could be troublesome, we might need to improve on that at a certain point.
+\end{enumerate}
+\end{document}
