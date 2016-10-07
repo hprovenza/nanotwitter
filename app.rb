@@ -75,7 +75,7 @@ get '/logout' do
 end
 
 post '/user/register' do
-  @user = User.new(params[:user][:username])
+  @user = User.new({:username=>params[:user][:username]})
   @user.password = make_hash(params[:user][:password])
   @existing = User.find_by("username = ?", params[:user][:username])
   if !@existing.nil?
