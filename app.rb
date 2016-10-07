@@ -4,9 +4,21 @@ require './config/environments'
 require './models/follow'
 require './models/tweet'
 require './models/user'
+require 'bcrypt'
 
 #enable :sessions
 use Rack::Session::Pool, :expire_after => 2592000
+
+helpers do
+  def make_hash(password)
+    BCrypt::Password.create(password)
+  end
+
+  def restore_password(password_hash)
+    BCrypt::Password.new(password_hash)
+  end
+
+end
 
 get '/' do
   if session[:id].nil?
@@ -26,11 +38,13 @@ get '/login' do
 end
 
 post '/login' do
-  @user = User.find_by(username: params[:user][:username],
-      password: params[:user][:password])
+  @user = User.find_by(username: params[:user][:username])
   if @user.nil?
     erb :login, :locals=>{:message =>
-      "Either username does not exist or wrong password"}
+      "User does not exist"}
+  elsif restore_password(@user.password) != params[:user][:password]
+    erb :login, :locals=>{:message =>
+      "Wrong password"}
   else
     session[:id] = @user.id
     redirect '/home'
@@ -60,7 +74,8 @@ get '/logout' do
 end
 
 post '/user/register' do
-  @user = User.new(params[:user])
+  @user = User.new(params[:user][:username])
+  @user.password = make_hash(params[:user][:password])
   @existing = User.find_by("username = ?", params[:user][:username])
   if !@existing.nil?
     erb :register, :locals=>{:message =>
