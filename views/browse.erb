@@ -1,0 +1,12 @@
+<h3>Recent N tweets by any user</h3>
+<p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/">Home</a>
+</p>
+<% Tweet.order(created_at: :desc).last(50).each do |t| %>
+<% author = User.find_by(id: t.user_id) %>
+<% tweet = t.text %>
+<% time = t.created_at.to_s %>
+<li>
+  <a href="/user/<%= author.id %>"><%= author.username %></a>
+  <%= ": " + tweet %><br /><%= time %>
+</li>
+<% end %>

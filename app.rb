@@ -82,3 +82,24 @@ post '/home' do
   Tweet.new({:text=>params[:tweet], :user_id=>@user.id}).save
   erb :home
 end
+
+get '/user/:id' do
+  if session[:id].nil? || User.find(session[:id]).nil?
+    redirect '/login'
+  else
+    @user = User.find_by("id = ?", params[:id].to_i)
+    if @user
+      erb :user
+    else
+      "user does not exist!"
+    end
+  end
+end
+
+get '/browse' do
+  if session[:id].nil? || User.find(session[:id]).nil?
+    redirect '/login'
+  else
+    erb :browse
+  end
+end

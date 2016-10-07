@@ -1,6 +1,7 @@
 <h3>Welcome, <%=@user.username%>! You have logged in now!</h3>
-<a href="/logout">Logout</a>
-<br /><br /><br />
+<p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/browse">Browse</a>
+</p>
+<br />
 What's on your mind?
 <form action="/home" method="POST">
   <textarea style="resize:none" name="tweet" rows="4" cols="50" maxlength="140"
@@ -12,10 +13,11 @@ What's on your mind?
 <% @followed_tweets = Tweet.where(user_id:
   @followed_user_ids).order(created_at: :desc) %>
 <% @followed_tweets.each do |t| %>
-  <% @username = User.find_by(id: t.user_id).username %>
-  <% @tweet = t.text %>
-  <% @time = t.created_at.to_s %>
+  <% author = User.find_by(id: t.user_id) %>
+  <% tweet = t.text %>
+  <% time = t.created_at.to_s %>
   <li>
-    <%= @username + ": " + @tweet + " | " + @time %>
+    <a href="/user/<%= author.id %>"><%= author.username %></a>
+    <%= ": " + tweet %><br /><%= time %>
   </li>
 <% end %>
