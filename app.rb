@@ -7,6 +7,7 @@ require './models/user'
 
 #enable :sessions
 use Rack::Session::Pool, :expire_after => 2592000
+set :cached_id, 0
 
 get '/' do
   if session[:id].nil?
@@ -89,6 +90,7 @@ get '/user/:id' do
   else
     @user = User.find_by("id = ?", params[:id].to_i)
     if @user
+      settings.cached_id = params[:id]
       erb :user
     else
       "user does not exist!"
@@ -102,4 +104,15 @@ get '/browse' do
   else
     erb :browse
   end
+end
+
+post '/update_relation' do
+  if params[:status] == "Follow"
+    f = Follow.new({:user_id=>session[:id], :followed_user_id=>settings.cached_id})
+    !f.nil? ? f.save : "Error saving new follow"
+  elsif params[:status] == "Unfollow"
+    d = Follow.find_by(:user_id=>session[:id], :followed_user_id=>settings.cached_id)
+    !d.nil? ? d.destroy : "Error deleting follow"
+  end
+  redirect "/user/#{settings.cached_id}"
 end

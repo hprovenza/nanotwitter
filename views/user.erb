@@ -1,7 +1,16 @@
 <h3><%= @user.username %></h3>
 <p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/">Home</a>  <a href="/browse">Browse</a>
 </p>
-[follow/unfollow button]
+<% if @user.id != session[:id] %>
+  <% follower_ids = @user.followers.map {|u| u.id} %>
+  <form action="/update_relation" method="POST">
+    <input type="submit" name="status" value="<%
+     if follower_ids.include? session[:id] %>Unfollow<% else %>Follow<% end
+     %>" /><br />
+  </form>
+<% else %>
+  <br />
+<% end %>
 <h4>======Tweets======</h4>
 <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
 <% @tweets.each do |t| %>
