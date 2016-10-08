@@ -1,10 +1,44 @@
-<h3>Register for a new account</h3>
-<form action="/user/register" method="POST">
-	Username:<br />
-	<input type="text" name="user[username]" required /><br />
-	Password:<br />
-	<input type="password" name="user[password]" required /><br />
-	<input type="submit" value="Register" />
-</form>
-Already have an account? <a href="/login">Log in here!</a><br />
-<%=message%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NanoTwitter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style type="text/css">
+	.center {
+	   float: none;
+	   margin: auto;
+		 padding-top: 80px;
+	}
+	</style>
+</head>
+<body>
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">NanoTwitter by ReptileSplash</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/">Home</a></li>
+      <li><a href="/login">Log in</a></li>
+      <li class="active"><a href="/user/register">Sign up</a></li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+	<div class="col-md-3 center">
+		<form class="form-signin" action="/user/register" method="POST">
+			Username:
+			<input type="text" class="form-control" name="user[username]" required /><br />
+			Password:
+			<input type="password" class="form-control" name="user[password]" required /><br />
+			<input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign up" />
+		</form>
+		<%=message%>
+	</div>
+</div>
+</body>
+</html>

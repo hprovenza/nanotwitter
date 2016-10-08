@@ -1,23 +1,53 @@
-<h3>Welcome, <%=@user.username%>! You have logged in now!</h3>
-<p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/browse">Browse</a>
-</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NanoTwitter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">NanoTwitter by ReptileSplash</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a href="/home">Home</a></li>
+      <li><a href="/user/<%= session[:id] %>">My Tweets</a></li>
+      <li><a href="/browse">Browse</a></li>
+      <li><a>Search</a></li>
+      <li><a>Settings</a></li>
+      <li><a href="/logout">Log out</a></li>
+    </ul>
+  </div>
+</div>
+<h3>Welcome, <%=@user.username%>! You are logged in now!</h3>
+<h3>User profile, #followings, #followers, #tweets, etc.</h3>
 <br />
-What's on your mind?
-<form action="/home" method="POST">
-  <textarea style="resize:none" name="tweet" rows="4" cols="50" maxlength="140"
-  placeholder="Enter tweet here! No more than 140 chars!" required></textarea><br />
-  <input type="submit" value="Send" /><br />
-</form>
-<h4>======Home Timeline======</h4>
 <% @followed_user_ids = @user.followed_users.map {|u| u.id} %>
-<% @followed_tweets = Tweet.where(user_id:
-  @followed_user_ids).order(created_at: :desc) %>
-<% @followed_tweets.each do |t| %>
-  <% author = User.find_by(id: t.user_id) %>
-  <% tweet = t.text %>
-  <% time = t.created_at.to_s %>
-  <li>
-    <a href="/user/<%= author.id %>"><%= author.username %></a>
-    <%= ": " + tweet %><br /><%= time %>
-  </li>
-<% end %>
+<% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc) %>
+  <div class="container">
+    What's on your mind?
+    <form action="/home" method="POST">
+      <textarea style="resize:none" name="tweet" rows="4" cols="50" maxlength="140"
+      placeholder="Enter tweet here! No more than 140 chars!" required></textarea><br />
+      <input type="submit" value="Send" /><br />
+    </form>
+    <h4>======Home Timeline======</h4>
+  	<div class="col-md-3">
+    <% @followed_tweets.each do |t| %>
+      <% author = User.find_by(id: t.user_id) %>
+      <% tweet = t.text %>
+      <% time = t.created_at.to_s %>
+      <li>
+        <a href="/user/<%= author.id %>"><%= author.username %></a>
+        <%= ": " + tweet %><br /><%= time %>
+      </li>
+    <% end %>
+    </div>
+  </div>
+</body>
+</html>

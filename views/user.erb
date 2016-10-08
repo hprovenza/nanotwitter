@@ -1,6 +1,30 @@
-<h3><%= @user.username %></h3>
-<p style="white-space: pre;"><a href="/logout">Logout</a>  <a href="/">Home</a>  <a href="/browse">Browse</a>
-</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NanoTwitter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">NanoTwitter by ReptileSplash</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/home">Home</a></li>
+      <li class="<%="active" if @user.id == session[:id]%>"><a href="/user/<%= session[:id] %>">My Tweets</a></li>
+      <li><a href="/browse">Browse</a></li>
+      <li><a>Search</a></li>
+      <li><a>Settings</a></li>
+      <li><a href="/logout">Log out</a></li>
+    </ul>
+  </div>
+</div>
+<h3><%= @user.username %>'s profile, #followings, #followers, #tweets, etc.</h3>
 <% if @user.id != session[:id] %>
   <% follower_ids = @user.followers.map {|u| u.id} %>
   <form action="/update_relation" method="POST">
@@ -11,11 +35,18 @@
 <% else %>
   <br />
 <% end %>
-<h4>======Tweets======</h4>
-<% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
-<% @tweets.each do |t| %>
-  <li>
-    <%= t.text %><br />
-    <%= t.created_at.to_s %>
-  </li>
-<% end %>
+<br />
+  <div class="container">
+    <h4>======Tweets======</h4>
+  	<div class="col-md-3">
+    <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
+    <% @tweets.each do |t| %>
+      <li>
+        <%= t.text %><br />
+        <%= t.created_at.to_s %>
+      </li>
+    <% end %>
+    </div>
+  </div>
+</body>
+</html>
