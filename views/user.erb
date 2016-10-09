@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    .list-inline {margin-left: -10px; }
+    .stat_count {font-size: 20px; font-weight: bold; display: block; }
+    .stat_label {font-size: 12px; }
+    .horizontal {display: inline; border-left: 1px solid #AFAFAF; }
+    .first {border-left: none; padding-left: 0; }
+  </style>
 </head>
 <body>
 <div class="navbar navbar-default">
@@ -24,29 +31,54 @@
     </ul>
   </div>
 </div>
-<h3><%= @user.username %>'s profile, #followings, #followers, #tweets, etc.</h3>
-<% if @user.id != session[:id] %>
-  <% follower_ids = @user.followers.map {|u| u.id} %>
-  <form action="/update_relation" method="POST">
-    <input type="submit" name="status" value="<%
-     if follower_ids.include? session[:id] %>Unfollow<% else %>Follow<% end
-     %>" /><br />
-  </form>
-<% else %>
-  <br />
-<% end %>
-<br />
-  <div class="container">
-    <h4>======Tweets======</h4>
-  	<div class="col-md-3">
-    <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
-    <% @tweets.each do |t| %>
-      <li>
-        <%= t.text %><br />
-        <%= t.created_at.to_s %>
-      </li>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2">
+      User: <%= @user.username %><br />
+      Bio: <br />
+      <% if @user.id != session[:id] %>
+        <% follower_ids = @user.followers.map {|u| u.id} %>
+        <form action="/update_relation" method="POST">
+          <input type="submit" name="status" value="<%
+           if follower_ids.include? session[:id] %>Unfollow<% else %>Follow<% end
+           %>" /><br />
+        </form>
+      <% else %>
+        <br />
+      <% end %>
+      <ul class="list-inline">
+        <li class="horizontal first">
+          <a>
+            <span class="stat_count"><%= @user.followed_users.where("followed_user_id != ?", @user.id).size %></span>
+            <span class="stat_label">following</span>
+          </a>
+        </li>
+        <li class="horizontal">
+          <a>
+            <span class="stat_count"><%= @user.followers.where("user_id != ?", @user.id).size %></span>
+            <span class="stat_label">followers</span>
+          </a>
+        </li>
+        <li class="horizontal">
+          <a href="/user/<%= @user.id %>">
+            <span class="stat_count"><%= Tweet.where("user_id = ?", @user.id).size %></span>
+            <span class="stat_label">tweets</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8">
+      <hr>
+      <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
+      <% @tweets.each do |t| %>
+        <div>
+          <h4><%= t.text %></h4>
+          <p class="post-meta"><h6><%= t.created_at.to_s %> via web</h6></p>
+        </div>
+      <hr>
+      <% end %>
     </div>
   </div>
+</div>
 </body>
 </html>

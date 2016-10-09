@@ -7,6 +7,23 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    function showButton() {
+      document.getElementById('button').innerHTML = '<input type="submit" value="Send" /><br />';
+    }
+    function hideButton() {
+      if (document.getElementById('tweet').value == "") {
+        document.getElementById('button').innerHTML = '';
+      }
+    }
+  </script>
+  <style type="text/css">
+    .list-inline {margin-left: -10px; }
+    .stat_count {font-size: 20px; font-weight: bold; display: block; }
+    .stat_label {font-size: 12px; }
+    .horizontal {display: inline; border-left: 1px solid #AFAFAF; }
+    .first {border-left: none; padding-left: 0; }
+  </style>
 </head>
 <body>
 <div class="navbar navbar-default">
@@ -24,30 +41,55 @@
     </ul>
   </div>
 </div>
-<h3>Welcome, <%=@user.username%>! You are logged in now!</h3>
-<h3>User profile, #followings, #followers, #tweets, etc.</h3>
-<br />
-<% @followed_user_ids = @user.followed_users.map {|u| u.id} %>
-<% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc) %>
-  <div class="container">
-    What's on your mind?
-    <form action="/home" method="POST">
-      <textarea style="resize:none" name="tweet" rows="4" cols="50" maxlength="140"
-      placeholder="Enter tweet here! No more than 140 chars!" required></textarea><br />
-      <input type="submit" value="Send" /><br />
-    </form>
-    <h4>======Home Timeline======</h4>
-  	<div class="col-md-3">
-    <% @followed_tweets.each do |t| %>
-      <% author = User.find_by(id: t.user_id) %>
-      <% tweet = t.text %>
-      <% time = t.created_at.to_s %>
-      <li>
-        <a href="/user/<%= author.id %>"><%= author.username %></a>
-        <%= ": " + tweet %><br /><%= time %>
-      </li>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2">
+      User: <%= @user.username %><br />
+      <ul class="list-inline">
+        <li class="horizontal first">
+          <a>
+            <span class="stat_count"><%= @user.followed_users.where("followed_user_id != ?", @user.id).size %></span>
+            <span class="stat_label">following</span>
+          </a>
+        </li>
+        <li class="horizontal">
+          <a>
+            <span class="stat_count"><%= @user.followers.where("user_id != ?", @user.id).size %></span>
+            <span class="stat_label">followers</span>
+          </a>
+        </li>
+        <li class="horizontal">
+          <a href="/user/<%= @user.id %>">
+            <span class="stat_count"><%= Tweet.where("user_id = ?", @user.id).size %></span>
+            <span class="stat_label">tweets</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8">
+      What's on your mind?
+      <form action="/home" method="POST">
+        <textarea class="form-control" id="tweet" name="tweet" maxlength="140"
+        placeholder="Enter tweet here! No more than 140 chars!" required
+        onfocus="showButton()" onblur="hideButton()"></textarea><br />
+        <div id="button"></div>
+      </form>
+      <hr>
+      <% @followed_user_ids = @user.followed_users.map {|u| u.id} %>
+      <% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc) %>
+      <% @followed_tweets.each do |t| %>
+        <% author = User.find_by(id: t.user_id) %>
+        <% tweet = t.text %>
+        <% time = t.created_at.to_s %>
+        <div>
+          <h4><%= tweet %></h4>
+          <p class="post-meta"><h6><a href="/user/<%= author.id %>">
+            <%= author.username %></a><%= " "+time %> via web</h6></p>
+        </div>
+      <hr>
+      <% end %>
     </div>
   </div>
+</div>
 </body>
 </html>
