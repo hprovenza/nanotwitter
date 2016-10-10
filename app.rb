@@ -131,3 +131,11 @@ post '/update_relation' do
   end
   redirect "/user/#{settings.cached_id}"
 end
+
+get '/settings' do
+  erb :settings
+end
+
+post '/settings' do
+  erb :settings
+end

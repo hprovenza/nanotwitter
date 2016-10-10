@@ -23,6 +23,7 @@
     .stat_label {font-size: 12px; }
     .horizontal {display: inline; border-left: 1px solid #AFAFAF; }
     .first {border-left: none; padding-left: 0; }
+    .avatar {float: left; margin-right: 10px; }
   </style>
 </head>
 <body>
@@ -44,6 +45,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-2">
+      <img src="/avatars/default-avatar.jpg" class="img-thumbnail" width="150" height="150">
       User: <%= @user.username %><br />
       <ul class="list-inline">
         <li class="horizontal first">
@@ -82,6 +84,7 @@
         <% tweet = t.text %>
         <% time = t.created_at.to_s %>
         <div>
+          <img src="/avatars/default-avatar.jpg" class="avatar" width="50" height="50">
           <h4><%= tweet %></h4>
           <p class="post-meta"><h6><a href="/user/<%= author.id %>">
             <%= author.username %></a><%= " "+time %> via web</h6></p>
