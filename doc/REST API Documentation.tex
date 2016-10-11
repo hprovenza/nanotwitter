@@ -1,0 +1,237 @@
+\documentclass{article}
+\usepackage{titlesec}
+\usepackage[top=1in,left=1in,right=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+%fancy header
+	\pagestyle{fancy}
+	\lhead{\textsc{COSI} 105b}
+	\chead{\textbf{nanoTwitter REST API Documentation}}
+	\rhead{\today}
+	\lfoot{}
+	\cfoot{\thepage\ of \pageref{LastPage}}
+	\rfoot{}
+
+\begin{document}
+	\section*{GET /tweets/$<$:tweet\_id$>$}
+	Returns a single tweet, specified by the tweet\_id parameter. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/tweets/$<$:tweet\_id$>$
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		tweet\_id(required) & the numerical ID of the desired tweet, e.g.: 123\\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/tweets/123 
+	\paragraph{Example Result} \mbox{} \\
+	\{"id": 123, "text": "Hello World", "user\_id": "12", "created\_at": "2016-01-01 00:00:00 UTC"\}
+	
+	
+	\section*{GET /users/$<$user\_id$>$}
+	Returns a single user, specified by the use\_id parameter. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/$<$:user\_id$>$
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id(required) & the numerical ID of the desired user, e.g.: 12\\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/users/12 
+	\paragraph{Example Result} \mbox{} \\
+	\{"id": 12, "username": "xwang", "bio": "a computational linguist", "created\_at": "2016-01-01 00:00:00 UTC"\}
+	
+	
+	\section*{GET /tweets/recent}
+	By default, returns a list of at most 10 tweets by any user. This API allows specifying any number of tweets by particular users. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/weets/recent
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		num(optional) & number of desired tweets, e.g.: 20 \\ \hline
+		uid(optional) & a list of user\_ids, separated by comma, e.g.: 12,13,14 \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/tweets/recent?num=20\&uid=12,13,14 
+	\paragraph{Example Result} \mbox{} \\
+	\{[\{"id": 123, "text": "Hello World", "user\_id": "12", "created\_at": "2016-01-01 00:00:00 UTC"\}, \{"id": 124, "text": "Hello Ruby", "user\_id": "13", "created\_at": "2016-01-02 00:00:00 UTC"\}, \{"id": 125, "text": "Hello Twitter", "user\_id": "14", "created\_at": "2016-01-03 00:00:00 UTC"\}]\}
+	
+
+	\section*{GET /users/$<$user\_id$>$/tweets}
+	By default, returns a list of at most 10 tweets by a single user, specified by user\_id. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/$<$user\_id$>$/tweets
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id(required) & the numerical ID of the desired user, e.g.: 20 \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/users/12/tweets 
+	\paragraph{Example Result} \mbox{} \\
+	\{[\{"id": 123, "text": "Hello World", "user\_id": "12", "created\_at": "2016-01-01 00:00:00 UTC"\}, \{"id": 124, "text": "Hello Ruby", "user\_id": "12", "created\_at": "2016-01-02 00:00:00 UTC"\}, \{"id": 125, "text": "Hello Twitter", "user\_id": "12", "created\_at": "2016-01-03 00:00:00 UTC"\}]\}
+
+
+	\section*{GET /users/$<$user\_id$>$/following}
+	By default, returns all users ids that a user is following, specified by user\_id. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/$<$user\_id$>$/following
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id(required) & the numerical ID of the desired user, e.g.: 20 \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/users/12/following 
+	\paragraph{Example Result} \mbox{} \\
+	\{[\{"id": 13, "username": "xwang", "bio": "a computational linguist", "created\_at": "2016-01-01 00:00:00 UTC"\}, \{"id": 14, "username": "signalw", "bio": "a data scientist", "created\_at": "2016-01-02 00:00:00 UTC"\}]\}
+	
+	
+	\section*{GET /users/$<$user\_id$>$/followers}
+	By default, returns followers of a single user, specified by user\_id. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/$<$user\_id$>$/following
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id(required) & the numerical ID of the desired user, e.g.: 20 \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/users/12/followers 
+	\paragraph{Example Result} \mbox{} \\
+	\{[\{"id": 13, "username": "xwang", "bio": "a computational linguist", "created\_at": "2016-01-01 00:00:00 UTC"\}, \{"id": 14, "username": "signalw", "bio": "a data scientist", "created\_at": "2016-01-02 00:00:00 UTC"\}]\}
+	
+	
+	\section*{GET /users/$<$user\_id$>$/followers}
+	By default, returns followers of a single user, specified by user\_id. 
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/$<$user\_id$>$/following
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & No \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id(required) & the numerical ID of the desired user, e.g.: 20 \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	GET \\
+	http://reptilesplash.herokuapp.com/api/v1/users/12/followers 
+	\paragraph{Example Result} \mbox{} \\
+	\{[\{"id": 13, "username": "xwang", "bio": "a computational linguist", "created\_at": "2016-01-01 00:00:00 UTC"\}, \{"id": 14, "username": "signalw", "bio": "a data scientist", "created\_at": "2016-01-02 00:00:00 UTC"\}]\}
+	
+	
+	\section*{POST /tweets/update}
+	Sends a tweet for the authenticating user’s current status
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/tweets/update
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & Yes \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		text(required) & the text of the tweet, no more than 140 characters, e.g.: "Hello World" \\ \hline
+		photo(optional) & the address of the photo attached to the tweet, e.g.: /home/img/1.jpg
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	POST \\
+	http://reptilesplash.herokuapp.com/api/v1/tweets/update?text=helloworld
+	\paragraph{Example Result} \mbox{} \\
+	\{"id": 123, "text": "Hello World", "user\_id": "12", "created\_at": "2016-01-01 00:00:00 UTC"\}
+
+
+	\section*{POST /users/follow}
+	Follow a single user, specified by user\_id.
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/follow
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & Yes \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id & the numerical ID of the desired user, e.g.: "20" \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	POST \\
+	http://reptilesplash.herokuapp.com/api/v1/users/follow?user\_id=20
+	\paragraph{Example Result} \mbox{} \\
+	\{"id": 20, "username": "xwang", "bio": "a computational linguist", "created\_at": "2016-01-01 00:00:00 UTC"\}
+	
+	
+	\section*{POST /users/unfollow}
+	Unfollow a single user, specified by user\_id.
+	\paragraph{Resource URL} \mbox{} \\
+	http://reptilesplash.herokuapp.com/api/v1/users/unfollow
+	\paragraph{Resource Information} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		Response format & JSON \\ \hline
+		Requires authentication? & Yes \\ \hline
+	\end{tabular}
+	\paragraph{Parameters} \mbox{} \\
+	\begin{tabular}{ll}
+		\hline
+		user\_id & the numerical ID of the desired user, e.g.: "20" \\ \hline
+	\end{tabular}
+	\paragraph{Example Request} \mbox{} \\
+	POST \\
+	http://reptilesplash.herokuapp.com/api/v1/users/unfollow?user\_id=20
+	\paragraph{Example Result} \mbox{} \\
+	\{"id": 20, "username": "xwang", "bio": "a computational linguist", "created\_at": "2016-01-01 00:00:00 UTC"\}
+
+\end{document}
