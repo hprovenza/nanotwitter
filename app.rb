@@ -139,3 +139,31 @@ end
 post '/settings' do
   erb :settings
 end
+
+get '/user/:id/following' do
+  if session[:id].nil? || User.find(session[:id]).nil?
+    redirect '/login'
+  else
+    @user = User.find_by("id = ?", params[:id].to_i)
+    if @user
+      settings.cached_id = params[:id]
+      erb :following
+    else
+      "user does not exist!"
+    end
+  end
+end
+
+get '/user/:id/followers' do
+  if session[:id].nil? || User.find(session[:id]).nil?
+    redirect '/login'
+  else
+    @user = User.find_by("id = ?", params[:id].to_i)
+    if @user
+      settings.cached_id = params[:id]
+      erb :followers
+    else
+      "user does not exist!"
+    end
+  end
+end

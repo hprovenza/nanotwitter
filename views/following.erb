@@ -1,0 +1,6 @@
+<% @followed_user_usernames = @user.followed_users.map {|u| u.username} %>
+<% @followed_user_usernames.each do |n| %>
+  <% if n != @user.username %>
+  <li><%= n %></li>
+  <% end %>
+<% end %>

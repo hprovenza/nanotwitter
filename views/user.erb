@@ -49,13 +49,13 @@
       <% end %>
       <ul class="list-inline">
         <li class="horizontal first">
-          <a>
+          <a href="/user/<%= @user.id %>/following">
             <span class="stat_count"><%= @user.followed_users.where("followed_user_id != ?", @user.id).size %></span>
             <span class="stat_label">following</span>
           </a>
         </li>
         <li class="horizontal">
-          <a>
+          <a href="/user/<%= @user.id %>/followers">
             <span class="stat_count"><%= @user.followers.where("user_id != ?", @user.id).size %></span>
             <span class="stat_label">followers</span>
           </a>
