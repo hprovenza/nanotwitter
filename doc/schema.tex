@@ -19,7 +19,7 @@
 	\\
 	table users \\
 	\indent id: integer \\
-	\indent name: text \\
+	\indent username: text \\
 	\indent email: text \\
 	\indent password: text \\
 	\indent bio: text \\
@@ -40,10 +40,10 @@
 	\indent tweet\_id: integer \\
 	\indent hashtag\_id: integer \\
 	\\
-	table friends \\
+	table follows \\
 	\indent id: integer \\
-	\indent user\_id\_follower: integer \\
-	\indent user\_id\_followee: integer \\
+	\indent user\_id\: integer \\
+	\indent followed\_user\_id: integer \\
 	\\
 	users \\
 	\indent has\_many tweets

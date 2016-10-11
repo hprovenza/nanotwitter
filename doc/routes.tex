@@ -3,8 +3,6 @@
 \usepackage[top=1in,left=1in,right=1in]{geometry}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
-\usepackage{amsmath}
-\usepackage{amsfonts}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -34,8 +32,8 @@
 		\item /home (show a user's home timeline; if not logged in, redirect to the home page)
 		\item /browse (see the last n tweets by any user)
 		\item /user/$<$user\_id$>$ (see the last n tweet by this user)
-		\item /friends (show whom the user is following)
-		\item /followers (show who are following this user)
+		\item /user/$<$user\_id$>$/following (show whom the user is following)
+		\item /user/$<$user\_id$>$/followers (show who are following this user)
 		\item */search (page for search)
 		\item */search/tweets?q=$<$query$>$ (page of search results for tweets)
 		\item */search/users?q=$<$query$>$ (page of search results for users)
