@@ -25,12 +25,13 @@ ActiveRecord::Schema.define(version: 3) do
   create_table "tweets", force: :cascade do |t|
     t.string   "text"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "date"
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "email"
     t.string   "password"
     t.string   "bio"

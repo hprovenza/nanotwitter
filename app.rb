@@ -167,3 +167,5 @@ get '/user/:id/followers' do
     end
   end
 end
+
+require_relative 'test/test_interface'
