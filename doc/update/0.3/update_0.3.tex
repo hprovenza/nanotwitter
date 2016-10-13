@@ -1,0 +1,24 @@
+\documentclass[]{article}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{COSI105b}
+\chead{nanoTwitter v0.3 update}
+\rhead{Team Reptile Splash}
+
+\begin{document}
+\begin{enumerate}
+	\item[1.]
+	The basic functionalities are implemented without much challenges, such as reading tweets, follow/unfollow, etc. Session, Bcrypt, faker and some other gems are all well embedded in the application. 
+	\item[2.]
+	We had some problems using HTML template. Boostrap makes life much easier, but still there's a lot of work in terms of front-end design. \\
+	We added test interface, generally works well, but some changes of the schema breaks some basic functionalities. 
+	\item[3.]
+	Test interface has some performance issue, especially for loading tweets. We may want to look into it later. \\
+	We will fix basic functionalities broken by test interface. \\
+	We are not quite sure if we want to deal with profile pictures yet. If so, we need to allow users to upload image files and store the files on the server. Since there are more to read and save, it may have some impact on scalability. \\
+	We will also clean up app.rb at some point. \\
+	Search and hastags are still of low priority. 
+\end{enumerate}
+\end{document}
