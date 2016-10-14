@@ -7,13 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style type="text/css">
-    .list-inline {margin-left: -10px; }
-    .stat_count {font-size: 20px; font-weight: bold; display: block; }
-    .stat_label {font-size: 12px; }
-    .horizontal {display: inline; border-left: 1px solid #AFAFAF; }
-    .first {border-left: none; padding-left: 0; }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
 </head>
 <body>
 <div class="navbar navbar-default">
@@ -36,7 +30,7 @@
     <div class="col-lg-2">
       <img src="/avatars/default-avatar.jpg" class="img-thumbnail" width="150" height="150">
       User: <%= @user.username %><br />
-      Bio: <br />
+      Bio: <%= @user.bio %><br />
       <% if @user.id != session[:id] %>
         <% follower_ids = @user.followers.map {|u| u.id} %>
         <form action="/update_relation" method="POST">
@@ -44,8 +38,6 @@
            if follower_ids.include? session[:id] %>Unfollow<% else %>Follow<% end
            %>" /><br />
         </form>
-      <% else %>
-        <br />
       <% end %>
       <ul class="list-inline">
         <li class="horizontal first">
