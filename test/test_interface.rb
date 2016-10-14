@@ -26,14 +26,16 @@ helpers do
         username += i.to_s
         i += 1
       end
-      User.new({:id => id, :username => username, :first_name => first_name}).save
+      user = User.new({:id => id, :username => username, :first_name => first_name})
+      user.save
+      Follow.new({:user_id => user.id, :followed_user_id => user.id}).save
     end
   end
 
   def load_seed_tweet(filepath)
     CSV.foreach(filepath) do |row|
       user_id, tweet, time = row
-      Tweet.new({:user_id => user_id, :text => tweet, :date => time}).save
+      Tweet.new({:user_id => user_id, :text => tweet, :created_at => time}).save
     end
   end
 
@@ -71,6 +73,7 @@ end
 get '/test/reset/all' do
   delete_all
   testuser = create_testuser()
+  Follow.new({:user_id => testuser.id, :followed_user_id => testuser.id}).save
   testuser.save
   redirect '/test/status'
 end
