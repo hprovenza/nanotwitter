@@ -1,5 +1,6 @@
 require 'csv'
 require 'faker'
+require 'bcrypt'
 
 helpers do
   def create_user(username, email, password)
@@ -8,7 +9,9 @@ helpers do
   end
 
   def create_testuser
-    create_user("testuser", "testuser@sample.com", "password")
+    user = create_user("testuser", "testuser@sample.com", BCrypt::Password.create("password"))
+    user.id = 0
+    return user
   end
 
   def delete_all
@@ -35,7 +38,8 @@ helpers do
   def load_seed_tweet(filepath)
     CSV.foreach(filepath) do |row|
       user_id, tweet, time = row
-      Tweet.new({:user_id => user_id, :text => tweet, :created_at => time}).save
+      Tweet.new({:user_id => user_id, :text => tweet,
+        :created_at => time, :updated_at => time}).save
     end
   end
 
@@ -66,7 +70,7 @@ get '/test/status' do
     testuser_id = testuser.id
   end
   content_type :json
-  {:users => User.all.size, :tweets => Tweet.all.size, 
+  {:users => User.all.size, :tweets => Tweet.all.size,
     :follows => Follow.all.size, :testuser_id => testuser_id}.to_json
 end
 
@@ -87,9 +91,7 @@ end
 
 get '/test/reset/standard' do
   delete_all
-  # How can we recreate testuser when the next step is loading seeds?
-  # Wouldn't the testuser get overwritten?
-  # create_testuser.save
+  create_testuser.save
   load_seed_user('./test/seeds/users.csv')
   load_seed_tweet('./test/seeds/tweets.csv')
   load_seed_follows('./test/seeds/follows.csv')
@@ -137,5 +139,3 @@ get '/test/user/:user_name/follow' do
     end
   end
 end
-
-

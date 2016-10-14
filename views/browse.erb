@@ -32,7 +32,7 @@
     <div class="col-lg-2"></div>
     <div class="col-md-8">
       <hr>
-      <% Tweet.order(created_at: :desc).last(50).each do |t| %>
+      <% Tweet.order(created_at: :desc).first(50).each do |t| %>
       <% author = User.find_by(id: t.user_id) %>
       <% tweet = t.text %>
       <% time = t.created_at.to_s %>
