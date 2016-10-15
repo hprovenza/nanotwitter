@@ -1,12 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NanoTwitter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+</head>
+<body>
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">NanoTwitter by ReptileSplash</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/user/<%= session[:id] %>">My Tweets</a></li>
+      <li><a href="/browse">Browse</a></li>
+      <li><a>Search</a></li>
+      <li class="active"><a href="/settings">Settings</a></li>
+      <li><a href="/logout">Log out</a></li>
+    </ul>
+  </div>
+</div>
+
+
 <h3>Profile</h3>
-<form method="POST" enctype='multipart/form-data'>
-  <input type='file' name='newFile' required />
+<form> <!-- method="POST" enctype='multipart/form-data' -->
+  <input type='file' required /> <!-- name='newFile' -->
   <br />
   <input type='submit' value='Change photo' />
 </form>
 <form method="POST">
-  <textarea class="form-control" id="tweet" name="tweet" required></textarea><br />
+  <textarea class="form-control" name="bio" /><%= @user.bio %></textarea><br />
   <input type='submit' value='Update bio' />
 </form>
 <h3>Security</h3>
-Old password->New password
+<form method="POST">
+  Old password:
+  <input type="password" name="old_password" required /><br />
+  New password:
+  <input type="password" name="new_password" required /><br />
+  <input type="submit" value="Update password" />
+</form>
+
+
+</body>

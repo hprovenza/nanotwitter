@@ -134,10 +134,22 @@ post '/update_relation' do
 end
 
 get '/settings' do
-  erb :settings
+  if session[:id].nil?
+    redirect '/'
+  end
+  @user = User.find(session[:id])
+  if @user.nil?
+    redirect '/'
+  else
+    erb :settings
+  end
 end
 
 post '/settings' do
+  @user = User.find(session[:id])
+  @user.bio = params[:bio]
+  # update password
+  @user.save
   erb :settings
 end
 
