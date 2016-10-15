@@ -71,7 +71,7 @@
       </form>
       <hr>
       <% @followed_user_ids = @user.followed_users.map {|u| u.id} %>
-      <% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc) %>
+      <% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc).first(50) %>
       <% @followed_tweets.each do |t| %>
         <% author = User.find_by(id: t.user_id) %>
         <% tweet = t.text %>

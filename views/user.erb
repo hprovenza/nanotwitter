@@ -62,7 +62,7 @@
     </div>
     <div class="col-md-8">
       <hr>
-      <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc) %>
+      <% @tweets = Tweet.where("user_id = ?", @user.id).order(created_at: :desc).first(50) %>
       <% @tweets.each do |t| %>
         <div>
           <h4><%= t.text %></h4>
