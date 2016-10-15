@@ -5,6 +5,7 @@ require './models/follow'
 require './models/tweet'
 require './models/user'
 require 'bcrypt'
+require './loader/loader_tokens'
 
 #enable :sessions
 use Rack::Session::Pool, :expire_after => 2592000
