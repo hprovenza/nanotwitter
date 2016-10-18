@@ -4,12 +4,15 @@ require 'bcrypt'
 
 helpers do
   def create_user(username, email, password)
-    user = User.new({:username => username, :email => email, :password => password})
+    user = User.new({:username => username,
+                     :email => email,
+                     :password => BCrypt::Password.create(password)})
+    Follow.new({:user_id => user.id, :followed_user_id => user.id}).save
     return user
   end
 
   def create_testuser
-    user = create_user("testuser", "testuser@sample.com", BCrypt::Password.create("password"))
+    user = create_user("testuser", "testuser@sample.com", "password")
     user.id = 0
     return user
   end
@@ -65,10 +68,7 @@ end
 
 get '/test/status' do
   testuser = User.find_by("username = ?", "testuser")
-  testuser_id = nil
-  if !testuser.nil?
-    testuser_id = testuser.id
-  end
+  testuser_id = testuser.nil? ? nil : testuser.id
   content_type :json
   {:users => User.all.size, :tweets => Tweet.all.size,
     :follows => Follow.all.size, :testuser_id => testuser_id}.to_json
@@ -76,9 +76,7 @@ end
 
 get '/test/reset/all' do
   delete_all
-  testuser = create_testuser()
-  Follow.new({:user_id => testuser.id, :followed_user_id => testuser.id}).save
-  testuser.save
+  create_testuser.save
   redirect '/test/status'
 end
 

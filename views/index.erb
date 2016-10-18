@@ -7,13 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style type="text/css">
-  .center {
-     float: none;
-     margin: auto;
-     padding-top: 80px;
-  }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
 </head>
 <body>
 <div class="navbar navbar-default">
@@ -29,12 +23,23 @@
   </div>
 </div>
 <div class="container">
-	<div class="col-md-3 center">
-    <li>Tweet 1</li>
-    <li>Tweet 2</li>
-    <li>Tweet 3</li>
-    <li>...</li>
-	</div>
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-md-8">
+      <% Tweet.order(created_at: :desc).first(50).each do |t| %>
+      <% author = User.find_by(id: t.user_id) %>
+      <% tweet = t.text %>
+      <% time = t.created_at.to_s %>
+        <div>
+          <img src="/avatars/default-avatar.jpg" class="avatar" width="50" height="50">
+          <h4><%= tweet %></h4>
+          <p class="post-meta"><h6><a href="/user/<%= author.id %>">
+            <%= author.username %></a><%= " "+time %> via web</h6></p>
+        </div>
+      <hr>
+      <% end %>
+    </div>
+  </div>
 </div>
 </body>
 </html>

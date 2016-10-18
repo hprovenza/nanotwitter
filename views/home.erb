@@ -17,14 +17,7 @@
       }
     }
   </script>
-  <style type="text/css">
-    .list-inline {margin-left: -10px; }
-    .stat_count {font-size: 20px; font-weight: bold; display: block; }
-    .stat_label {font-size: 12px; }
-    .horizontal {display: inline; border-left: 1px solid #AFAFAF; }
-    .first {border-left: none; padding-left: 0; }
-    .avatar {float: left; margin-right: 10px; }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
 </head>
 <body>
 <div class="navbar navbar-default">
@@ -37,7 +30,7 @@
       <li><a href="/user/<%= session[:id] %>">My Tweets</a></li>
       <li><a href="/browse">Browse</a></li>
       <li><a>Search</a></li>
-      <li><a>Settings</a></li>
+      <li><a href="/settings">Settings</a></li>
       <li><a href="/logout">Log out</a></li>
     </ul>
   </div>
@@ -78,7 +71,7 @@
       </form>
       <hr>
       <% @followed_user_ids = @user.followed_users.map {|u| u.id} %>
-      <% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc) %>
+      <% @followed_tweets = Tweet.where(user_id:@followed_user_ids).order(created_at: :desc).first(50) %>
       <% @followed_tweets.each do |t| %>
         <% author = User.find_by(id: t.user_id) %>
         <% tweet = t.text %>

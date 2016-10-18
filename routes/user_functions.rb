@@ -16,6 +16,12 @@ post '/home' do
   erb :home
 end
 
+post '/home' do
+  @user = User.find(session[:id])
+  Tweet.new({:text=>params[:tweet], :user_id=>@user.id}).save
+  erb :home
+end
+
 get '/user/:id' do
   if session[:id].nil? || User.find(session[:id]).nil?
     redirect '/login'
@@ -50,10 +56,22 @@ post '/update_relation' do
 end
 
 get '/settings' do
-  erb :settings
+  if session[:id].nil?
+    redirect '/'
+  end
+  @user = User.find(session[:id])
+  if @user.nil?
+    redirect '/'
+  else
+    erb :settings
+  end
 end
 
 post '/settings' do
+  @user = User.find(session[:id])
+  @user.bio = params[:bio]
+  # update password
+  @user.save
   erb :settings
 end
 

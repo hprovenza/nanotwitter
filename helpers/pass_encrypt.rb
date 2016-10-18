@@ -6,6 +6,6 @@ module PassEncrypt
   end
 
   def restore_password(password_hash)
-    BCrypt::Password.new(password_hash)
+    password_hash.nil? ? "" : BCrypt::Password.new(password_hash)
   end
 end
