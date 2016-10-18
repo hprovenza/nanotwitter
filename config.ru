@@ -1,3 +1,3 @@
 require './app'
 
-run NanoTwitter
+run Sinatra::Application
