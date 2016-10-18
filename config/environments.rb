@@ -15,6 +15,10 @@ configure :production, :development do
 end
 
 configure :test do
-  databases = YAML.load_file("config/database.yml")
+  # allows excecuting unit tests from any directory
+  erbname = File.join(__dir__, "database.yml")
+  erbfile = ERB.new(File.read(erbname))
+  erbfile.filename = erbname
+  databases = YAML.load(erbfile.result)
   ActiveRecord::Base.establish_connection(databases['test'])
 end

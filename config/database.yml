@@ -12,4 +12,4 @@ production:
   host: localhost
 test:
   adapter: sqlite3
-  database: db/test.sqlite3
+  database: <%= File.join(File.expand_path("..", __dir__), "db/test.sqlite3") %>

@@ -16,12 +16,6 @@ post '/home' do
   erb :home
 end
 
-post '/home' do
-  @user = User.find(session[:id])
-  Tweet.new({:text=>params[:tweet], :user_id=>@user.id}).save
-  erb :home
-end
-
 get '/user/:id' do
   if session[:id].nil? || User.find(session[:id]).nil?
     redirect '/login'

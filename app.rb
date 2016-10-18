@@ -1,8 +1,8 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require './config/environments'
+require_relative 'config/environments'
 require 'bcrypt'
-require './loader/loader_tokens'
+require_relative 'loader/loader_tokens'
 
 use Rack::Session::Pool, :expire_after => 2592000
 set :cached_id, 0
