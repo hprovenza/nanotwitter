@@ -1,0 +1,2 @@
+require_relative 'pass_encrypt'
+helpers PassEncrypt
