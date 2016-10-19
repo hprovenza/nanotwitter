@@ -6,3 +6,6 @@
 
 #ignore IDE metadata
 .idea/
+
+#ignore SQLite database
+.sqlite3
