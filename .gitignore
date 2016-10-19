@@ -8,4 +8,4 @@
 .idea/
 
 #ignore SQLite database
-.sqlite3
+*.sqlite3
