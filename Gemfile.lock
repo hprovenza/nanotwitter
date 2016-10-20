@@ -43,6 +43,7 @@ DEPENDENCIES
   activerecord
   bcrypt
   faker
+  minitest
   pg
   rake
   sinatra
