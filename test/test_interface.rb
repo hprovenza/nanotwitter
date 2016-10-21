@@ -97,8 +97,8 @@ get '/test/reset/standard' do
 end
 
 get '/test/users/create' do
-  count = params[:count].to_i || 1
-  tweets = params[:tweets].to_i || 0
+  count = (params[:count] || 1).to_i
+  tweets = (params[:tweets] || 0).to_i
   while count > 0 do
     user = User.new({:username => fake_username, :email => fake_email})
     user.save
@@ -113,7 +113,7 @@ get '/test/users/create' do
 end
 
 get '/test/user/:user_name/tweets' do
-  count = params[:count].to_i || 0
+  count = (params[:count] || 0).to_i
   user = User.find_by("username = ?", user_name)
   if !user.nil?
     while count > 0 do
@@ -125,7 +125,7 @@ get '/test/user/:user_name/tweets' do
 end
 
 get '/test/user/:user_name/follow' do
-  count = params[:count].to_i || 0
+  count = (params[:count] || 0).to_i
   user = User.find_by("username = ?", params[:user_name])
   if !user.nil?
     while count > 0 do
