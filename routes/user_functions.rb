@@ -51,11 +51,11 @@ end
 
 get '/settings' do
   if session[:id].nil?
-    redirect '/'
+    redirect '/login'
   end
   @user = User.find(session[:id])
   if @user.nil?
-    redirect '/'
+    redirect '/login'
   else
     erb :settings
   end
