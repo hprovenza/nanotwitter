@@ -13,7 +13,7 @@ end
 post '/home' do
   @user = User.find(session[:id])
   Tweet.new({:text=>params[:tweet], :user_id=>@user.id}).save
-  erb :home
+  redirect '/home'
 end
 
 get '/user/:id' do
