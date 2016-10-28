@@ -35,4 +35,12 @@ class NTTest < MiniTest::Unit::TestCase
     post '/login', {:user=>{:username=>'test', :password=> 'test'}}
     assert last_response.ok?
   end
+
+  def test_tweet
+    post '/login', {:user=>{:username=>'testuser', :password=> 'password'}}
+    post '/home', {:tweet=>'hello world', :user_id=>0}
+    assert Tweet.all.size == 1
+    assert Tweet.take.text == 'hello world'
+  end
+
 end
