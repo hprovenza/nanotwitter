@@ -7,5 +7,6 @@ gem "rack-test"
 gem "rake"
 gem "sinatra"
 gem "sinatra-activerecord"
+gem 'sqlite3'
 gem "faker"
 gem "minitest"
