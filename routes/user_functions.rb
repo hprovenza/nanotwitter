@@ -51,11 +51,11 @@ end
 
 get '/settings' do
   if session[:id].nil?
-    redirect '/'
+    redirect '/login'
   end
   @user = User.find(session[:id])
   if @user.nil?
-    redirect '/'
+    redirect '/login'
   else
     erb :settings
   end
@@ -63,9 +63,6 @@ end
 
 post '/settings' do
   @user = User.find(session[:id])
-  @user.bio = params[:bio]
-  # update password
-  @user.save
   erb :settings
 end
 
@@ -94,5 +91,27 @@ get '/user/:id/followers' do
     else
       "user does not exist!"
     end
+  end
+end
+
+post '/update_bio' do
+  @user = User.find(session[:id])
+  @user.bio = params[:bio]
+  @user.save
+  @msg_success = "Your bio is now updated"
+  erb :settings
+end
+
+post '/update_password' do
+  @user = User.find(session[:id])
+  if !params[:old_password].empty? &&
+    restore_password(@user.password) == params[:old_password]
+    @user.password = make_hash(params[:new_password])
+    @user.save
+    @msg_success = "Your password is now updated"
+    erb :settings
+  else
+    @msg_fail = "Your old password is incorrect"
+    erb :settings
   end
 end

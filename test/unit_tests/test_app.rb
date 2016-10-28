@@ -76,4 +76,28 @@ class NTTest < MiniTest::Unit::TestCase
     post '/user/register', {:user=>{:username=>'test', :password=> 'test'}}
     assert User.all.size == 2
   end
+
+  def test_login
+    get '/login'
+    assert last_response.ok?
+    post '/login', {:user=>{:username=>'test', :password=> 'test'}}
+    assert last_response.ok?
+  end
+
+  def test_tweet
+    post '/login', {:user=>{:username=>'testuser', :password=> 'password'}}
+    post '/home', {:tweet=>'hello world', :user_id=>0}
+    assert Tweet.all.size == 1
+    assert Tweet.take.text == 'hello world'
+  end
+
+  def test_view_tweets
+    post '/login', {:user=>{:username=>'testuser', :password=> 'password'}}
+    get '/user/0'
+    assert last_response.ok?
+    assert last_response.body != 'user does not exist!'
+    get '/user/999999999999'
+    assert last_response.ok?
+    assert last_response.body == 'user does not exist!'
+  end
 end

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NanoTwitter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+</head>
+<body>
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">NanoTwitter by ReptileSplash</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/user/<%= session[:id] %>">My Tweets</a></li>
+      <li><a href="/browse">Browse</a></li>
+      <li class="active"><a href="/search">Search</a></li>
+      <li><a href="/settings">Settings</a></li>
+      <li><a href="/logout">Log out</a></li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-md-8">
+      <ul class="nav nav-tabs">
+        <li class="<%= @match_username.empty? ? "active" : "" %>">
+          <a data-toggle="tab" href="#tweets">Search tweets</a></li>
+        <li class="<%= @match_username.empty? ? "" : "active" %>">
+          <a data-toggle="tab" href="#users">Search users</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="tweets" class="tab-pane fade in <%= @match_username.empty? ? "active" : "" %>">
+          <h3></h3>
+          <form method="GET" action = "/search">
+            Keywords:
+            <input type="text" name="query" value="<%= @query %>" required />
+            <input type="submit" value="Search" />
+          </form><br />
+          <% if !@match_tweet.empty? %>
+          We have found <%= @tweet_results.size %> results
+          <%= @tweet_results.empty? ? ":(" : ":)" %>
+            <hr>
+            <% @tweet_results.each do |t| %>
+            <% author = User.find_by(id: t.user_id) %>
+            <% tweet = t.text %>
+            <% time = t.created_at.to_s %>
+              <div>
+                <img src="/avatars/default-avatar.jpg" class="avatar" width="50" height="50">
+                <h4><%= tweet %></h4>
+                <p class="post-meta"><h6><a href="/user/<%= author.id %>">
+                  <%= author.username %></a><%= " "+time %> via web</h6></p>
+              </div>
+            <hr>
+            <% end %>
+          <% end %>
+        </div>
+        <div id="users" class="tab-pane fade in <%= @match_username.empty? ? "" : "active" %>">
+          <h3></h3>
+          <form method="GET" action = "/search">
+            Username:
+            <input type="text" name="username" value="<%= @username %>" required />
+            <input type="submit" value="Search" />
+          </form><br />
+          <% if !@match_username.empty? %>
+          We have found <%= @user_results.size %> users
+          <%= @user_results.empty? ? ":(" : ":)" %>
+            <hr>
+            <% @user_results.each do |u| %>
+              <div>
+                <img src="/avatars/default-avatar.jpg" class="avatar" width="50" height="50">
+                <h5><a href="/user/<%= u.id %>"><%= u.username %></a></h5>
+                bio: <%= u.bio %>
+              </div>
+            <hr>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>

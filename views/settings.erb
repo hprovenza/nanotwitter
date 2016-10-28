@@ -19,32 +19,47 @@
       <li><a href="/home">Home</a></li>
       <li><a href="/user/<%= session[:id] %>">My Tweets</a></li>
       <li><a href="/browse">Browse</a></li>
-      <li><a>Search</a></li>
+      <li><a href="/search">Search</a></li>
       <li class="active"><a href="/settings">Settings</a></li>
       <li><a href="/logout">Log out</a></li>
     </ul>
   </div>
 </div>
-
-
-<h3>Profile</h3>
-<form> <!-- method="POST" enctype='multipart/form-data' -->
-  <input type='file' required /> <!-- name='newFile' -->
-  <br />
-  <input type='submit' value='Change photo' />
-</form>
-<form method="POST">
-  <textarea class="form-control" name="bio" /><%= @user.bio %></textarea><br />
-  <input type='submit' value='Update bio' />
-</form>
-<h3>Security</h3>
-<form method="POST">
-  Old password:
-  <input type="password" name="old_password" required /><br />
-  New password:
-  <input type="password" name="new_password" required /><br />
-  <input type="submit" value="Update password" />
-</form>
-
-
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-md-8">
+      <% if @msg_success %>
+      <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <%= @msg_success %>
+      </div>
+      <% end %>
+      <% if @msg_fail%>
+      <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <%= @msg_fail %>
+      </div>
+      <% end %>
+      <h3>Profile</h3>
+      <form> <!-- method="POST" enctype='multipart/form-data' -->
+        <input type='file' required /> <!-- name='newFile' -->
+        <input type='submit' value='Change photo' />
+      </form>
+      <br />
+      <form method="POST" action = "/update_bio">
+        <textarea class="form-control" name="bio" /><%= @user.bio %></textarea>
+        <input type='submit' value='Update bio' />
+      </form>
+      <h3>Security</h3>
+      <form method="POST" action = "/update_password">
+        Old password:
+        <input type="password" name="old_password" required /><br />
+        New password:
+        <input type="password" name="new_password" required /><br />
+        <input type="submit" value="Update password" />
+      </form>
+    </div>
+  </div>
+</div>
 </body>

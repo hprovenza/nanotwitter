@@ -5,3 +5,5 @@
 .first {border-left: none; padding-left: 0; }
 .avatar {float: left; margin-right: 10px; }
 .center {float: none; margin: auto; padding-top: 80px; }
+.nav-tabs > li {float:none; display:inline-block; *display:inline; zoom:1; }
+.nav-tabs { text-align:center; }
