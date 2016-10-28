@@ -24,6 +24,16 @@ class NTTest2 < MiniTest::Unit::TestCase
     assert Follow.all.size == 2
   end
 
+  def test_view_following
+    get '/user/0/following'
+    assert last_response.ok?
+  end
+
+  def test_view_followers
+    get '/user/0/followers'
+    assert last_response.ok?
+  end
+
   def test_browse
     get '/browse'
     assert last_response.ok?
