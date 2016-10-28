@@ -24,4 +24,19 @@ class NTTest2 < MiniTest::Unit::TestCase
     assert Follow.all.size == 2
   end
 
+  def test_browse
+    get '/browse'
+    assert last_response.ok?
+  end
+
+  def test_settings
+    get '/settings'
+    assert last_response.ok?
+  end
+
+  def test_logout
+    get '/logout'
+    assert last_response.ok?
+  end
+
 end
