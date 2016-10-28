@@ -47,6 +47,10 @@ class NTTest < MiniTest::Unit::TestCase
     post '/login', {:user=>{:username=>'testuser', :password=> 'password'}}
     get '/user/0'
     assert last_response.ok?
+    assert last_response.body != 'user does not exist!'
+    get '/user/999999999999'
+    assert last_response.ok?
+    assert last_response.body == 'user does not exist!'
   end
 
 end
