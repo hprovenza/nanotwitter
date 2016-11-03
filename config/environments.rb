@@ -2,6 +2,7 @@
 # => postgres://{user}:{password}@{host}:{port}/path
 require "zlib"
 configure :production, :development do
+  require 'newrelic_rpm'
   db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/ntdb')
 
   ActiveRecord::Base.establish_connection(
