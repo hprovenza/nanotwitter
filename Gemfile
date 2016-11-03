@@ -10,6 +10,7 @@ end
 
 gem "activerecord"
 gem "bcrypt"
+gem "newrelic_rpm"
 gem "rack-test"
 gem "rake"
 gem "sinatra"
