@@ -6,6 +6,8 @@ require_relative 'loader/loader_tokens'
 
 use Rack::Session::Pool, :expire_after => 2592000
 set :cached_id, 0
+#set web server here
+#set :server, <servername>
 
 require_relative 'models/init'
 require_relative 'helpers/init'
