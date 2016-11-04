@@ -12,6 +12,12 @@ configure :production, :development do
       :database => db.path[1..-1],
       :encoding => 'utf8'
   )
+
+  #AWS keys for S3 image storage
+  s3_bucket = ENV["aws_s3_bucket"]
+  s3_key = ENV["aws_s3_key"]
+  s3_secret = ENV["aws_s3_secret"]
+
 end
 
 configure :test do

@@ -115,3 +115,24 @@ post '/update_password' do
     erb :settings
   end
 end
+
+post '/update_pic' do
+  @user = User.find(session[:id])
+  awskey     = s3_key
+  awssecret  = s3_secret
+  bucket     = s3_bucket
+  file       = params[:file][:tempfile]
+  filename   = params[:file][:filename]
+  AWS::S3::Base.establish_connection!(
+      :access_key_id     => awskey,
+      :secret_access_key => awssecret
+  )
+  AWS::S3::S3Object.store(
+      filename,
+      open(file.path),
+      bucket,
+      :access => :public_read
+  )
+  url = "https://#{bucket}.s3.amazonaws.com/#{@user}"
+  return url
+end
