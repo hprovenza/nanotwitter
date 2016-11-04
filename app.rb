@@ -3,7 +3,6 @@ require 'sinatra/activerecord'
 require_relative 'config/environments'
 require 'bcrypt'
 require_relative 'loader/loader_tokens'
-require 'puma'
 
 use Rack::Session::Pool, :expire_after => 2592000
 set :cached_id, 0
