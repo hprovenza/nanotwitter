@@ -1,5 +1,3 @@
-require 'bcrypt'
-
 module PassEncrypt
   def make_hash(password)
     BCrypt::Password.create(password)
