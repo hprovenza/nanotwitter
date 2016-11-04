@@ -10,5 +10,5 @@
 #ignore SQLite database
 *.sqlite3
 
-#ignore API secrets
-config/application.yml
+# Ignore application configuration
+/config/application.yml
