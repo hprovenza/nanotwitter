@@ -1,0 +1,26 @@
+\documentclass[]{article}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{COSI105b}
+\chead{nanoTwitter v0.5 update}
+\rhead{Team Reptile Splash}
+
+\begin{document}
+\begin{enumerate}
+	\item[1.]
+	Generally in good shape. We have added additional functionalities like search, which works quite nice. We have also added more minitests and set up profile picture storage at Amazon S3. New relic is also on at Heroku. 
+	\item[2.]
+	We had some problems figuring out how to improve the result of load test. We have run tests against two web servers, Puma and Thin, with 120 clients in a minute.  \\
+	\begin{tabular}{|c|c|}
+	\hline
+	Webserver & Average response time \\ \hline
+	Puma & 6801ms \\
+	Thin & 9412ms \\ \hline
+	\end{tabular} \\
+	Heroku db indexing took us a little while to fix because we have duplicate records in it, so simply using migration is not enough.
+	\item[3.]
+	The next steps include adding profile pic functionality, using redis, and potentially concurrency. 
+\end{enumerate}
+\end{document}
