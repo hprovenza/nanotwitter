@@ -43,8 +43,8 @@
       <% end %>
       <h3>Profile</h3>
       <form method="POST" enctype='multipart/form-data' action = "/update_pic">
-        <input type='file' required name='file' />
-        <input type='submit' value='Change photo' />
+        <input type='file' required name='file' value="" id ="file" />
+        <input type='submit' value='Upload' />
       </form>
       <br />
       <form method="POST" action = "/update_bio">

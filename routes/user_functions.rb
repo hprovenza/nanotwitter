@@ -118,18 +118,18 @@ end
 
 post '/update_pic' do
   @user = User.find(session[:id])
-  name = @user.name
   file       = params[:file][:tempfile]
+  filename   = params[:file][:filename]
   AWS::S3::Base.establish_connection(
       :access_key_id     => s3_key,
       :secret_access_key => s3_secret
   )
   AWS::S3::S3Object.store(
-      name,
+      filename,
       open(file.path),
       s3_bucket,
       :access => :public_read
   )
   url = "https://#{s3_bucket}.s3.amazonaws.com/#{name}"
-  erb :settings
+  return url
 end
