@@ -121,12 +121,12 @@ end
 post '/update_pic' do
   @user = User.find(session[:id])
   file       = params[:file][:tempfile]
-  filename   = params[:file][:filename]
-  cred = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+  type       = params[:file][:type]
+  cred = Aws::Credentials.new(ENV[AWS_ACCESS_KEY_ID], ENV['AWS_SECRET_ACCESS_KEY'])
   s3 = Aws::S3::Resource.new(
-      region: 'us-west-2',
+      region: ENV['AWS_REGION'],
       credentials: cred)
-  obj = s3.bucket('reptilesplash-profilepics').object(@user.username)
+  obj = s3.bucket('reptilesplash-profilephotos').object(@user.username)
   obj.upload_file(file)
   erb :settings
 end
