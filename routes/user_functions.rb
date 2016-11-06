@@ -125,7 +125,7 @@ post '/update_pic' do
   s3 = Aws::S3::Resource.new(
       region: ENV['AWS_REGION'],
       credentials: cred)
-  obj = s3.bucket('reptilesplash-profilephotos').object(pfpics + '/' + @user.username)
+  obj = s3.bucket('reptilesplash-profilephotos').object('pfpics' + '/' + @user.username)
   obj.upload_file(file)
   erb :settings
 end
