@@ -15,9 +15,10 @@ configure :production, :development do
   )
 
   #AWS keys for S3 image storage
-  s3_bucket = ENV["aws_s3_bucket"]
-  s3_key = ENV["aws_s3_key"]
-  s3_secret = ENV["aws_s3_secret"]
+  s3_bucket = ENV["AWS_BUCKET"]
+  s3_key = ENV["AWS_ACCESS_KEY_ID"]
+  s3_secret = ENV["AWS_SECRET_ACCESS_KEY"]
+  s3_region = ENV['AWS_REGION']
 
 end
 

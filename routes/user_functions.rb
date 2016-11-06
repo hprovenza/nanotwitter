@@ -1,3 +1,5 @@
+require 'aws-sdk'
+
 get '/home' do
   if session[:id].nil?
     redirect '/'
@@ -117,19 +119,11 @@ post '/update_password' do
 end
 
 post '/update_pic' do
-  @user = User.find(session[:id])
   file       = params[:file][:tempfile]
   filename   = params[:file][:filename]
-  AWS::S3::Base.establish_connection(
-      :access_key_id     => s3_key,
-      :secret_access_key => s3_secret
-  )
-  AWS::S3::S3Object.store(
-      filename,
-      open(file.path),
-      s3_bucket,
-      :access => :public_read
-  )
-  url = "https://#{s3_bucket}.s3.amazonaws.com/#{name}"
+  s3 = Aws::S3::Resource.new(
+      region: ENV['AWS_REGION'])
+  obj = s3.bucket(s3_bucket).object(@user.name)
+  obj.upload_file(file)
   return url
 end
