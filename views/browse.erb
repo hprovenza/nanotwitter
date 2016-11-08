@@ -30,15 +30,17 @@
     <div class="col-lg-2"></div>
     <div class="col-md-8">
       <hr>
-      <% Tweet.order(created_at: :desc).first(50).each do |t| %>
-      <% author = User.find_by(id: t.user_id) %>
-      <% tweet = t.text %>
-      <% time = t.created_at.to_s %>
+      <% ($redis.lrange 'recent', 0, 49).each do |t| %>
+      <% info = JSON.parse(t) %>
+      <% user_id = info["user_id"] %>
+      <% tweet = info["text"] %>
+      <% time = info["created_at"] %>
+      <% username = info["username"] %>
         <div>
           <img src="/avatars/default-avatar.jpg" class="avatar" width="50" height="50">
           <h4><%= tweet %></h4>
-          <p class="post-meta"><h6><a href="/user/<%= author.id %>">
-            <%= author.username %></a><%= " "+time %> via web</h6></p>
+          <p class="post-meta"><h6><a href="/user/<%= user_id %>">
+            <%= username %></a><%= " "+time %> via web</h6></p>
         </div>
       <hr>
       <% end %>

@@ -21,6 +21,7 @@ helpers do
     User.delete_all
     Tweet.delete_all
     Follow.delete_all
+    $redis.flushall
   end
 
   def load_seed_user(filepath)
@@ -41,8 +42,10 @@ helpers do
   def load_seed_tweet(filepath)
     CSV.foreach(filepath) do |row|
       user_id, tweet, time = row
-      Tweet.new({:user_id => user_id, :text => tweet,
-        :created_at => time, :updated_at => time}).save
+      t = Tweet.new({:user_id => user_id, :text => tweet,
+        :created_at => time, :updated_at => time})
+      t.save
+      tweet_id = t.id.to_s
     end
   end
 
