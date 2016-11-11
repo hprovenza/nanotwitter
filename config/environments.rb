@@ -10,7 +10,7 @@ configure do
   s3_secret = ENV["aws_s3_secret"]
 
   #Redis
-  $redis = Redis.new(:url => ENV["REDISTOGO_URL"]) #|| 'redis://localhost'
+  $redis = Redis.new(:url => ENV["REDISTOGO_URL"])
 end
 
 configure :production, :development do
