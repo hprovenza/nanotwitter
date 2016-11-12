@@ -17,6 +17,9 @@ post '/home' do
   t = create_tweet(@user.id, params[:tweet]) 
   t.save
   cache_recent(@user, t)
+  # TODO: get_followers
+  # for each follower
+  #   cache_timeline
   redirect '/home'
 end
 
