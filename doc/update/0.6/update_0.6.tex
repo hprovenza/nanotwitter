@@ -1,0 +1,33 @@
+\documentclass[]{article}
+\usepackage{fancyhdr}
+\usepackage{caption}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{COSI105b}
+\chead{nanoTwitter v0.6 update}
+\rhead{Team Reptile Splash}
+
+\begin{document}
+	We have successfully implemented redis on our Heroku server side. 
+        So far, we are only been using redis to cache the most recent tweet on 
+        the index page.\\
+        The test result for the index page before and after caching is shown below.
+        \captionof{table}{Loader test using 360 clients on index page for 1 min}
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|}
+	\hline
+	  & Average response time & Success & Timeout\\ \hline
+	Before Caching & 8006ms & 1260 & 1320\\
+	After Caching & 7512ms & 3943 & 0 \\ \hline
+	\end{tabular} \\
+        \end{center}
+        Caching has shown to have improved the performance of the index page.\\
+        It took us some time to figure out how to use redis in our application. And we still haven't 
+        successfully made redis to work locally yet.\\
+        In terms of future plans, 
+        we are planning to use caching for other parts of our application. 
+        For example, we can cache the timeline for each user. 
+        In addition, we will conduct more tests on such routes, and compare the results of using and 
+        not using caching.\\
+\end{document}

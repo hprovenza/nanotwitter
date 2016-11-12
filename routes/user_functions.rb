@@ -14,18 +14,9 @@ end
 
 post '/home' do
   @user = User.find(session[:id])
-  t = Tweet.new({:text=>params[:tweet], :user_id=>@user.id})
+  t = create_tweet(@user.id, params[:tweet]) 
   t.save
-  info = {
-    "text": params[:tweet],
-    "created_at": t.created_at.to_s,
-    "user_id": @user.id,
-    "username": @user.username
-  }
-  $redis.lpush "recent", info.to_json
-  if ($redis.llen "recent") > 50
-    $redis.rpop "recent"
-  end
+  cache_recent(@user, t)
   redirect '/home'
 end
 
