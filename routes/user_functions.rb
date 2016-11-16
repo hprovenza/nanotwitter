@@ -20,6 +20,8 @@ post '/home' do
   # TODO: get_followers
   # for each follower
   #   cache_timeline
+  followers = get_followers(@user)
+
   redirect '/home'
 end
 
