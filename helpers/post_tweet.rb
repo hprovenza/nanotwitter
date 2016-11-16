@@ -15,13 +15,18 @@ module PostTweet
     cache_list("recent", info.to_json)
   end
 
-  def cache_timeline(user, tweet)
+  def cache_follower_timelines(user, tweet)
+    # given a user and the tweet posted by that user
+    # cache the timelines of the users forllowing this user
     info = {"text": tweet.text,
             "created_at": tweet.created_at.to_s,
             "user_id": user.id,
             "username": user.username
     }
-    cache_list("timeline_"+user.username, info.to_json, limit=100)
+    followers = get_followers(user)
+    followers.each do |f|
+      cache_list("timeline_"+f.username, info.to_json, limit=100)
+    end
   end
 
   def cache_list(key, item, limit=50)
@@ -32,5 +37,9 @@ module PostTweet
     if ($redis.llen key) > limit
       $redis.rpop key
     end
+  end
+
+  def cache_exist(key)
+    $redis.exists key
   end
 end
