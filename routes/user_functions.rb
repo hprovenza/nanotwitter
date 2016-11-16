@@ -8,7 +8,8 @@ get '/home' do
   if @user.nil?
     redirect '/'
   else
-    erb :home
+    tl = read_timeline(@user, 0, 49)
+    erb :home, :locals => {:tl_tweets => tl}
   end
 end
 
@@ -16,9 +17,9 @@ post '/home' do
   @user = User.find(session[:id])
   t = create_tweet(@user.id, params[:tweet]) 
   t.save
-  cache_recent(@user, t)
+  update_recent(@user, t)
   # update the cache for the timeline of each follower
-  cache_follower_timelines(@user, t)
+  update_follower_timelines(@user, t)
   redirect '/home'
 end
 
@@ -40,7 +41,8 @@ get '/browse' do
   if session[:id].nil? || User.find(session[:id]).nil?
     redirect '/login'
   else
-    erb :browse
+    recent_tweets = read_recent_tweets(0, 49)
+    erb :browse, :locals => {:recent_tweets => recent_tweets}
   end
 end
 

@@ -76,7 +76,8 @@
         <%# tweet = t.text %>
         <%# time = t.created_at.to_s %>
       <hr>
-      <% @followed_tweets = $redis.lrange 'timeline_'+@user.username, 0, 99%>
+      <%# @followed_tweets = $redis.lrange 'timeline_'+@user.id, 0, 99%>
+      <% @followed_tweets = tl_tweets %>
       <% @followed_tweets.each do |t| %>
         <% info = JSON.parse(t) %>
         <% user_id = info["user_id"] %>

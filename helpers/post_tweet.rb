@@ -4,7 +4,7 @@ module PostTweet
     return t
   end
 
-  def cache_recent(user, tweet)
+  def update_recent(user, tweet)
     # user: a user object
     # tweet: a tweet object
     info = {"text": tweet.text,
@@ -14,8 +14,12 @@ module PostTweet
     }
     cache_list("recent", info.to_json)
   end
+  
+  def update_timeline(tl_owner_id, tweet_json)
+    cache_list('timeline_'+tl_owner_id.to_s, tweet_json)
+  end
 
-  def cache_follower_timelines(user, tweet)
+  def update_follower_timelines(user, tweet)
     # given a user and the tweet posted by that user
     # cache the timelines of the users forllowing this user
     info = {"text": tweet.text,
@@ -25,7 +29,7 @@ module PostTweet
     }
     followers = get_followers(user)
     followers.each do |f|
-      cache_list("timeline_"+f.username, info.to_json, limit=100)
+      update_timeline(f.id, info.to_json)
     end
   end
 
@@ -37,9 +41,5 @@ module PostTweet
     if ($redis.llen key) > limit
       $redis.rpop key
     end
-  end
-
-  def cache_exist(key)
-    $redis.exists key
-  end
+  end 
 end

@@ -30,7 +30,7 @@
     <div class="col-lg-2"></div>
     <div class="col-md-8">
       <hr>
-      <% ($redis.lrange 'recent', 0, 49).each do |t| %>
+      <% recent_tweets.each do |t| %>
       <% info = JSON.parse(t) %>
       <% user_id = info["user_id"] %>
       <% tweet = info["text"] %>
