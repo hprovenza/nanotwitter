@@ -54,6 +54,8 @@ post '/update_relation' do
     d = Follow.find_by(:user_id=>session[:id], :followed_user_id=>settings.cached_id)
     !d.nil? ? d.destroy : "Error deleting follow"
   end
+  # need to reset timeline cache here
+  $redis.del 'timeline_'+session[:id].to_s
   redirect "/user/#{settings.cached_id}"
 end
 
