@@ -18,6 +18,7 @@ post '/home' do
   t = create_tweet(@user.id, params[:tweet])
   t.save
   update_recent(@user, t)
+  cache_index_page
   # update the cache for the timeline of each follower
   update_follower_timelines(@user, t)
   redirect '/home'

@@ -1,13 +1,20 @@
 get '/' do
-  @recent_tweets = read_recent_tweets(0, 49)
   if session[:id].nil?
-    erb :index
+    if !page_cache_exist('index')
+      recent_tweets = read_recent_tweets(0, 49)
+      cache_index_page
+    end
+      read_cached_page('index')
   else
     @user = User.find(session[:id])
     if !@user.nil?
       redirect '/home'
     else
-      erb :index
+      if !page_cache_exist('index')
+        recent_tweets = read_recent_tweets(0, 49)
+        cache_index_page
+      end
+      read_cached_page('index')
     end
   end
 end
