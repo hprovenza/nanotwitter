@@ -26,10 +26,9 @@ module TimelineReader
 
   def init_timeline_cache(user, limit)
     followed_user_ids = user.followed_users.map {|u| u.id}
-    # not use desc order because we need to push each tweet into the list
-    # from the begining(oldest)
-    followed_tweets = Tweet.where(user_id:followed_user_ids).order(:created_at).first(limit)
-    followed_tweets.each do |t|
+    followed_tweets = Tweet.where(user_id:followed_user_ids).order(created_at: :desc).first(limit)
+    # using reverse each for the correct ordering of tweets by created_at
+    followed_tweets.reverse_each do |t|
       poster = User.find_by(id: t.user_id)
       info = {"text": t.text,
               "created_at": t.created_at.to_s,
@@ -41,8 +40,8 @@ module TimelineReader
   end
 
   def init_recent_cache(limit)
-    tweets = Tweet.order(:created_at).first(limit)
-    tweets.each do |t|
+    tweets = Tweet.order(created_at: :desc).first(limit)
+    tweets.reverse_each do |t|
       poster = User.find_by(id: t.user_id)
       update_recent(poster, t)
     end
