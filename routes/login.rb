@@ -5,11 +5,9 @@ end
 post '/login' do
   @user = User.find_by(username: params[:user][:username])
   if @user.nil?
-    erb :login, :locals=>{:message =>
-      "User does not exist"}
+    erb :login, :locals=>{:message => Messages::USER_NOT_EXIST}
   elsif restore_password(@user.password) != params[:user][:password]
-    erb :login, :locals=>{:message =>
-      "Wrong password"}
+    erb :login, :locals=>{:message => Messages::WRONG_PASSWORD}
   else
     session[:id] = @user.id
     redirect '/home'

@@ -15,7 +15,7 @@ end
 
 post '/home' do
   @user = User.find(session[:id])
-  t = create_tweet(@user.id, params[:tweet]) 
+  t = create_tweet(@user.id, params[:tweet])
   t.save
   update_recent(@user, t)
   # update the cache for the timeline of each follower
@@ -32,7 +32,7 @@ get '/user/:id' do
       settings.cached_id = params[:id]
       erb :user
     else
-      "user does not exist!"
+      Messages::USER_NOT_EXIST
     end
   end
 end
@@ -85,7 +85,7 @@ get '/user/:id/following' do
       settings.cached_id = params[:id]
       erb :following
     else
-      "user does not exist!"
+      Messages::USER_NOT_EXIST
     end
   end
 end
@@ -99,7 +99,7 @@ get '/user/:id/followers' do
       settings.cached_id = params[:id]
       erb :followers
     else
-      "user does not exist!"
+      Messages::USER_NOT_EXIST
     end
   end
 end
@@ -108,7 +108,7 @@ post '/update_bio' do
   @user = User.find(session[:id])
   @user.bio = params[:bio]
   @user.save
-  @msg_success = "Your bio is now updated"
+  @msg_success = Messages::UPDATE_BIO
   erb :settings
 end
 
@@ -118,10 +118,10 @@ post '/update_password' do
     restore_password(@user.password) == params[:old_password]
     @user.password = make_hash(params[:new_password])
     @user.save
-    @msg_success = "Your password is now updated"
+    @msg_success = Messages::UPDATE_PASSWORD
     erb :settings
   else
-    @msg_fail = "Your old password is incorrect"
+    @msg_fail = Messages::WRONG_PASSWORD
     erb :settings
   end
 end

@@ -28,13 +28,15 @@ helpers do
     CSV.foreach(filepath) do |row|
       id, first_name = row
       username = first_name.downcase
-      i = 0
-      while !User.find_by("username = ?", username).nil? do
+      if !User.find_by("username = ?", username).nil?
+        i = 2
         username += i.to_s
-        i += 1
+        while !User.find_by("username = ?", username).nil? do
+          i += 1
+          username[-1] = i.to_s
+        end
       end
-      user = User.new({:id => id, :username => username, 
-                       :first_name => first_name})
+      user = User.new({:id => id, :username => username, :first_name => first_name})
       user.save
       Follow.new({:user_id => user.id, :followed_user_id => user.id}).save
     end
@@ -53,7 +55,7 @@ helpers do
   def load_seed_follows(filepath)
     CSV.foreach(filepath) do |row|
       user_id, followed_user_id = row
-      Follow.new({:user_id => user_id, 
+      Follow.new({:user_id => user_id,
                   :followed_user_id => followed_user_id}).save
     end
   end

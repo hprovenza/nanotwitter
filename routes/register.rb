@@ -9,12 +9,12 @@ post '/user/register' do
   @existing = User.find_by("username = ?", params[:user][:username])
   if !@existing.nil?
     erb :register, :locals=>{:message =>
-      "Account already exists! Try a new username or log back in!"}
+      Messages::USER_ALREADY_EXIST}
   elsif @user.save
     Follow.new({:user_id=>@user.id, :followed_user_id=>@user.id}).save
     redirect '/user/register/success'
   else
-    "Sorry our server is taking a nap"
+    Messages::OTHER_ERRORS
   end
 end
 
