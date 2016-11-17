@@ -29,13 +29,13 @@
   <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-md-8">
-      <% if @msg_success %>
+      <% if defined? @msg_success %>
       <div class="alert alert-success fade in">
         <a href="#" class="close" data-dismiss="alert">&times;</a>
         <%= @msg_success %>
       </div>
       <% end %>
-      <% if @msg_fail%>
+      <% if defined? @msg_fail%>
       <div class="alert alert-danger fade in">
         <a href="#" class="close" data-dismiss="alert">&times;</a>
         <%= @msg_fail %>
