@@ -6,7 +6,7 @@ helpers do
   def create_user(username, email, password)
     user = User.new({:username => username,
                      :email => email,
-                     :password => BCrypt::Password.create(password)})
+                     :password => make_hash(password)})
     Follow.new({:user_id => user.id, :followed_user_id => user.id}).save
     return user
   end
