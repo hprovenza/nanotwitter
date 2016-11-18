@@ -1,6 +1,18 @@
 #The environment variable DATABASE_URL should be in the following format:
 # => postgres://{user}:{password}@{host}:{port}/path
 require "zlib"
+require "redis"
+
+configure do
+  #AWS keys for S3 image storage
+  s3_bucket = ENV["aws_s3_bucket"]
+  s3_key = ENV["aws_s3_key"]
+  s3_secret = ENV["aws_s3_secret"]
+
+  #Redis
+  $redis = Redis.new(:url => ENV["REDISTOGO_URL"])
+end
+
 configure :production, :development do
   require 'newrelic_rpm'
   db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/ntdb')
@@ -13,13 +25,6 @@ configure :production, :development do
       :database => db.path[1..-1],
       :encoding => 'utf8'
   )
-
-  #AWS keys for S3 image storage
-  s3_bucket = ENV["AWS_BUCKET"]
-  s3_key = ENV["AWS_ACCESS_KEY_ID"]
-  s3_secret = ENV["AWS_SECRET_ACCESS_KEY"]
-  s3_region = ENV['AWS_REGION']
-
 end
 
 configure :test do

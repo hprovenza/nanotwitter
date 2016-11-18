@@ -21,16 +21,20 @@ helpers do
     User.delete_all
     Tweet.delete_all
     Follow.delete_all
+    $redis.flushall
   end
 
   def load_seed_user(filepath)
     CSV.foreach(filepath) do |row|
       id, first_name = row
       username = first_name.downcase
-      i = 0
-      while !User.find_by("username = ?", username).nil? do
+      if !User.find_by("username = ?", username).nil?
+        i = 2
         username += i.to_s
-        i += 1
+        while !User.find_by("username = ?", username).nil? do
+          i += 1
+          username[-1] = i.to_s
+        end
       end
       user = User.new({:id => id, :username => username, :first_name => first_name})
       user.save
@@ -41,15 +45,18 @@ helpers do
   def load_seed_tweet(filepath)
     CSV.foreach(filepath) do |row|
       user_id, tweet, time = row
-      Tweet.new({:user_id => user_id, :text => tweet,
-        :created_at => time, :updated_at => time}).save
+      t = Tweet.new({:user_id => user_id, :text => tweet,
+        :created_at => time, :updated_at => time})
+      t.save
+      tweet_id = t.id.to_s
     end
   end
 
   def load_seed_follows(filepath)
     CSV.foreach(filepath) do |row|
       user_id, followed_user_id = row
-      Follow.new({:user_id => user_id, :followed_user_id => followed_user_id}).save
+      Follow.new({:user_id => user_id,
+                  :followed_user_id => followed_user_id}).save
     end
   end
 

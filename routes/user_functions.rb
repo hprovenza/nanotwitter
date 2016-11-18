@@ -8,13 +8,19 @@ get '/home' do
   if @user.nil?
     redirect '/'
   else
-    erb :home
+    tl = read_timeline(@user, 0, 49)
+    erb :home, :locals => {:tl_tweets => tl}
   end
 end
 
 post '/home' do
   @user = User.find(session[:id])
-  Tweet.new({:text=>params[:tweet], :user_id=>@user.id}).save
+  t = create_tweet(@user.id, params[:tweet])
+  t.save
+  update_recent(@user, t)
+  cache_index_page
+  # update the cache for the timeline of each follower
+  update_follower_timelines(@user, t)
   redirect '/home'
 end
 
@@ -27,7 +33,7 @@ get '/user/:id' do
       settings.cached_id = params[:id]
       erb :user
     else
-      "user does not exist!"
+      Messages::USER_NOT_EXIST
     end
   end
 end
@@ -36,7 +42,8 @@ get '/browse' do
   if session[:id].nil? || User.find(session[:id]).nil?
     redirect '/login'
   else
-    erb :browse
+    recent_tweets = read_recent_tweets(0, 49)
+    erb :browse, :locals => {:recent_tweets => recent_tweets}
   end
 end
 
@@ -48,6 +55,8 @@ post '/update_relation' do
     d = Follow.find_by(:user_id=>session[:id], :followed_user_id=>settings.cached_id)
     !d.nil? ? d.destroy : "Error deleting follow"
   end
+  # need to reset timeline cache here
+  $redis.del 'timeline_'+session[:id].to_s
   redirect "/user/#{settings.cached_id}"
 end
 
@@ -77,7 +86,7 @@ get '/user/:id/following' do
       settings.cached_id = params[:id]
       erb :following
     else
-      "user does not exist!"
+      Messages::USER_NOT_EXIST
     end
   end
 end
@@ -91,7 +100,7 @@ get '/user/:id/followers' do
       settings.cached_id = params[:id]
       erb :followers
     else
-      "user does not exist!"
+      Messages::USER_NOT_EXIST
     end
   end
 end
@@ -100,7 +109,7 @@ post '/update_bio' do
   @user = User.find(session[:id])
   @user.bio = params[:bio]
   @user.save
-  @msg_success = "Your bio is now updated"
+  @msg_success = Messages::UPDATE_BIO
   erb :settings
 end
 
@@ -110,10 +119,10 @@ post '/update_password' do
     restore_password(@user.password) == params[:old_password]
     @user.password = make_hash(params[:new_password])
     @user.save
-    @msg_success = "Your password is now updated"
+    @msg_success = Messages::UPDATE_PASSWORD
     erb :settings
   else
-    @msg_fail = "Your old password is incorrect"
+    @msg_fail = Messages::WRONG_PASSWORD
     erb :settings
   end
 end
