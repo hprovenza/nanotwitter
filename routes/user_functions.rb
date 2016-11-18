@@ -127,5 +127,6 @@ post '/update_pic' do
       credentials: cred)
   obj = s3.bucket('reptilesplash-profilephotos').object('pfpics' + '/' + @user.username)
   obj.upload_file(file)
+  @user.avatar_url = obj.public_url(virtual_host: true)
   erb :settings
 end
