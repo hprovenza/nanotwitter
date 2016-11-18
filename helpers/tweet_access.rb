@@ -1,4 +1,8 @@
-module PostTweet 
+module TweetAccess 
+  def find_tweet(tweet_id)
+    Tweet.find_by id: tweet_id
+  end
+
   def create_tweet(user_id, text)
     t = Tweet.new({:user_id=>user_id, :text=>text})
     return t
