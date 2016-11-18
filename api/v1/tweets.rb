@@ -12,3 +12,6 @@ get "#{$API_PREFIX}/tweets/:tweet_id" do
   end
 end 
 
+get "#{$API_PREFIX}/tweets/recent" do
+  'not implemented'
+end

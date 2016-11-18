@@ -3,6 +3,15 @@ module TweetAccess
     Tweet.find_by id: tweet_id
   end
 
+  def find_tweets_by_user(user_id, limit=10)
+    u = Tweet.find_by(user_id: user_id)
+    if u.nil?
+      return nil
+    else
+      return u.order(:created_at, :desc).first(limit)
+    end
+  end
+
   def create_tweet(user_id, text)
     t = Tweet.new({:user_id=>user_id, :text=>text})
     return t
