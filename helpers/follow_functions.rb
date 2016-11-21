@@ -9,4 +9,8 @@ module FollowFunctions
     followers = get_followers(user)
     followers.map {|u| u.id}
   end
+
+  def get_followed_users(user)
+    user.followed_users
+  end
 end

@@ -4,11 +4,11 @@ module TweetAccess
   end
 
   def find_tweets_by_user(user_id, limit=10)
-    u = Tweet.find_by(user_id: user_id)
-    if u.nil?
+    tweets = Tweet.where("user_id = ?", user_id) 
+    if tweets.nil?
       return nil
     else
-      return u.order(:created_at, :desc).first(limit)
+      return tweets.order(created_at: :desc).first(limit)
     end
   end
 
@@ -17,14 +17,28 @@ module TweetAccess
     return t
   end
 
+  def get_tweet_info(tweet)
+    info = {"id": tweet.id,
+            "text": tweet.text,
+            "user_id": tweet.user_id,
+            "created_at": tweet.created_at.to_s
+    }
+    info
+  end
+
+  def get_tweet_info_with_user(user, tweet)
+    info = {"text": tweet.text,
+            "user_id": user.id,
+            "created_at": tweet.created_at.to_s,
+            "username": user.username
+    }
+    info
+  end
+
   def update_recent(user, tweet)
     # user: a user object
     # tweet: a tweet object
-    info = {"text": tweet.text,
-            "created_at": tweet.created_at.to_s,
-            "user_id": user.id,
-            "username": user.username
-    }
+    info = get_tweet_info_with_user(user, tweet)  
     cache_list("recent", info.to_json)
   end
   
@@ -35,11 +49,7 @@ module TweetAccess
   def update_follower_timelines(user, tweet)
     # given a user and the tweet posted by that user
     # cache the timelines of the users forllowing this user
-    info = {"text": tweet.text,
-            "created_at": tweet.created_at.to_s,
-            "user_id": user.id,
-            "username": user.username
-    }
+    info = get_tweet_info_with_user(user, tweet) 
     followers = get_followers(user)
     followers.each do |f|
       update_timeline(f.id, info.to_json)
