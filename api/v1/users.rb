@@ -11,7 +11,7 @@ end
 get "#{$API_PREFIX}/users/:user_id/tweets" do
   tweets = find_tweets_by_user(params[:user_id].to_i)
   if tweets.nil?
-    return {}.to_json
+    return [].to_json
   else
     t_list = Array.new
     tweets.each do |t|
@@ -24,7 +24,7 @@ end
 get "#{$API_PREFIX}/users/:user_id/following" do
   u = find_user(params[:user_id].to_i)
   if u.nil?
-    return {}.to_json
+    return [].to_json
   else
     followed_users = get_followed_users(u)
     f_list = Array.new
@@ -38,3 +38,19 @@ get "#{$API_PREFIX}/users/:user_id/following" do
     return f_list.to_json
   end
 end
+
+get "#{$API_PREFIX}/users/:user_id/followers" do
+  u = find_user(params[:user_id].to_i)
+  if u.nil?
+    return [].to_json
+  else
+    followers = get_followers(u)
+    f_list = Array.new
+    #TODO
+    followers.each do |f|
+      f_list << get_user_info(f)
+    end
+    return f_list.to_json
+  end
+end
+

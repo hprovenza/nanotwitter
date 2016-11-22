@@ -15,3 +15,8 @@ end
 get "#{$API_PREFIX}/tweets/recent" do
   'not implemented'
 end
+
+post "#{$API_PREFIX}/tweets/update" do
+  protected!
+  "Hello world"
+end
