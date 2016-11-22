@@ -17,7 +17,7 @@ module TweetAccess
     return t
   end
 
-  def get_tweet_info(tweet)
+  def get_tweet_info_api(tweet)
     info = {"id": tweet.id,
             "text": tweet.text,
             "user_id": tweet.user_id,
@@ -26,7 +26,7 @@ module TweetAccess
     info
   end
 
-  def get_tweet_info_with_user(user, tweet)
+  def get_tweet_info_timeline(user, tweet)
     info = {"text": tweet.text,
             "user_id": user.id,
             "created_at": tweet.created_at.to_s,
@@ -38,7 +38,7 @@ module TweetAccess
   def update_recent(user, tweet)
     # user: a user object
     # tweet: a tweet object
-    info = get_tweet_info_with_user(user, tweet)  
+    info = get_tweet_info_timeline(user, tweet)  
     cache_list("recent", info.to_json)
   end
   
@@ -49,7 +49,7 @@ module TweetAccess
   def update_follower_timelines(user, tweet)
     # given a user and the tweet posted by that user
     # cache the timelines of the users forllowing this user
-    info = get_tweet_info_with_user(user, tweet) 
+    info = get_tweet_info_timeline(user, tweet) 
     followers = get_followers(user)
     followers.each do |f|
       update_timeline(f.id, info.to_json)
