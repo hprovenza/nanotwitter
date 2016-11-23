@@ -13,6 +13,10 @@ module UserAccess
     info
   end
 
+  def find_user_by_username(username)
+    User.find_by username: username
+  end
+
   def user_cred_valid?(uname, password)
     user = User.find_by(username: uname)
     !user.nil? and restore_password(user.password) == password

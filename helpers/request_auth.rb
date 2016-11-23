@@ -10,7 +10,11 @@ module RequestAuth
       and user_cred_valid?(@auth.credentials[0], @auth.credentials[1])
   end
 
-  def get_credentials
+  def request_credentials
     @auth.credentials
+  end
+
+  def request_username
+    @auth.credentials[0]
   end
 end

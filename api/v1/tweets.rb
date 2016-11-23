@@ -18,5 +18,11 @@ end
 
 post "#{$API_PREFIX}/tweets/update" do
   protected!
-  "Hello world"
+  u = find_user_by_username(request_username)
+  t = create_tweet(u.id, params[:text])
+  t.save
+  update_recent(u, t)
+  cache_index_page
+  update_follower_timelines(u, t)
+  get_tweet_info_api(t).to_json
 end
