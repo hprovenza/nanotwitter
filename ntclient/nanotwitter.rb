@@ -12,13 +12,15 @@ class NanoTwitter
       uri.query = URI.encode_www_form(params)
     end
     res = Net::HTTP.get_response(uri)
+    
     res.body if res.is_a?(Net::HTTPSuccess)
   end
 
   def post_request(uri_str, params)
     uri = URI.parse(uri_str)
     res = Net:HTTP.post_form(uri, params)
-    res
+    
+    res.body
   end
 
   def post_with_auth(uri_str, params, username, password)
