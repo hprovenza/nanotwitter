@@ -1,4 +1,4 @@
-get "#{$API_PREFIX}/tweets/:tweet_id" do
+get "#{$API_PREFIX}/tweets/t/:tweet_id" do
   t = find_tweet params[:tweet_id].to_i
   if t.nil?
     return {}.to_json
