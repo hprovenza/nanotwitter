@@ -24,9 +24,5 @@ class NanoTwitter
   def get_tweet(id)
     get_request("#{BASE_URI}/tweets/t/#{id}")
   end
-
 end
-
-n = NanoTwitter.new
-puts n.get_tweet(194)
 
