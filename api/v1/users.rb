@@ -19,15 +19,7 @@ get "#{$API_PREFIX}/users/u/:user_id/following" do
     return [].to_json
   else
     followed_users = get_followed_users(u)
-    f_list = Array.new
-    followed_users.each do |f|
-      # ignore the user themself since each user
-      # is following themself in the database
-      if f.id != u.id
-        f_list << get_user_info(f)
-      end
-    end
-    return f_list.to_json
+    return followed_users.map{ |f| get_user_info f }.to_json
   end
 end
 
