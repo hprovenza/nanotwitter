@@ -10,15 +10,7 @@ end
 
 get "#{$API_PREFIX}/users/u/:user_id/tweets" do
   tweets = find_tweets_by_user(params[:user_id].to_i)
-  if tweets.nil?
-    return [].to_json
-  else
-    t_list = Array.new
-    tweets.each do |t|
-      t_list << get_tweet_info_api(t)
-    end
-    return t_list.to_json
-  end
+  return tweets.map{ |t| get_tweet_info_api t }.to_json
 end
 
 get "#{$API_PREFIX}/users/u/:user_id/following" do
