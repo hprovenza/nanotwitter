@@ -35,8 +35,8 @@ module TweetAccess
     info
   end
 
-  def get_recent_tweets
-    return Tweet.order(created_at: :desc).first(50)
+  def get_recent_tweets(limit=50)
+    return Tweet.order(created_at: :desc).first(limit)
   end
 
   def update_recent(user, tweet)
