@@ -37,11 +37,7 @@ get "#{$API_PREFIX}/users/u/:user_id/followers" do
     return [].to_json
   else
     followers = get_followers(u)
-    f_list = Array.new
-    followers.each do |f|
-      f_list << get_user_info(f)
-    end
-    return f_list.to_json
+    return followers.map{ |f| get_user_info f }.to_json
   end
 end
 
