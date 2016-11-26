@@ -3,7 +3,7 @@ require 'json'
 
 class NanoTwitter
   API_VER = "v1"
-  ENVIRONMENT = 'test'
+  ENVIRONMENT = 'prod'
   PROD_URI = "https://reptilesplash.herokuapp.com/api/#{API_VER}"
   TEST_URI = "http://localhost:4567/api/#{API_VER}"
   if ENVIRONMENT == 'prod'
