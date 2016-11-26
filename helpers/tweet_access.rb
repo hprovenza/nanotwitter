@@ -1,10 +1,10 @@
-module TweetAccess 
+module TweetAccess
   def find_tweet(tweet_id)
     Tweet.find_by id: tweet_id
   end
 
   def find_tweets_by_user(user_id, limit=10)
-    tweets = Tweet.where("user_id = ?", user_id) 
+    tweets = Tweet.where("user_id = ?", user_id)
     if tweets.nil?
       return nil
     else
@@ -35,13 +35,17 @@ module TweetAccess
     info
   end
 
+  def get_recent_tweets
+    return Tweet.order(created_at: :desc).first(50)
+  end
+
   def update_recent(user, tweet)
     # user: a user object
     # tweet: a tweet object
-    info = get_tweet_info_timeline(user, tweet)  
+    info = get_tweet_info_timeline(user, tweet)
     cache_list("recent", info.to_json)
   end
-  
+
   def update_timeline(tl_owner_id, tweet_json)
     cache_list('timeline_'+tl_owner_id.to_s, tweet_json)
   end
@@ -49,7 +53,7 @@ module TweetAccess
   def update_follower_timelines(user, tweet)
     # given a user and the tweet posted by that user
     # cache the timelines of the users forllowing this user
-    info = get_tweet_info_timeline(user, tweet) 
+    info = get_tweet_info_timeline(user, tweet)
     followers = get_followers(user)
     followers.each do |f|
       update_timeline(f.id, info.to_json)
@@ -64,5 +68,5 @@ module TweetAccess
     if ($redis.llen key) > limit
       $redis.rpop key
     end
-  end 
+  end
 end

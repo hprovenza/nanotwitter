@@ -15,7 +15,7 @@ get "#{$API_PREFIX}/users/u/:user_id/tweets" do
   else
     t_list = Array.new
     tweets.each do |t|
-      t_list << get_tweet_info(t)
+      t_list << get_tweet_info_api(t)
     end
     return t_list.to_json
   end

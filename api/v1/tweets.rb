@@ -10,10 +10,11 @@ get "#{$API_PREFIX}/tweets/t/:tweet_id" do
     }
     return info.to_json
   end
-end 
+end
 
 get "#{$API_PREFIX}/tweets/recent" do
-  'not implemented'
+  tweets = get_recent_tweets
+  tweets.map{ |t| get_tweet_info_api t }.to_json
 end
 
 post "#{$API_PREFIX}/tweets/update" do
