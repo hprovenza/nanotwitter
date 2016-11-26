@@ -56,7 +56,7 @@ post '/update_relation' do
     !d.nil? ? d.destroy : "Error deleting follow"
   end
   # need to reset timeline cache here
-  $redis.del 'timeline_'+session[:id].to_s
+  reset_timeline_cache session[:id]
   redirect "/user/#{settings.cached_id}"
 end
 

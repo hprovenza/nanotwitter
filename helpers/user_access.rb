@@ -5,16 +5,24 @@ module UserAccess
 
   def get_user_info(u)
     # u: a user object
-    info = {'id': u.id,
-            'username': u.username,
-            'bio': u.bio,
-            'created_at': u.created_at.to_s
-      }
+    if u.nil?
+      info = {}
+    else
+      info = {'id': u.id,
+              'username': u.username,
+              'bio': u.bio,
+              'created_at': u.created_at.to_s
+        }
+    end
     info
   end
 
   def find_user_by_username(username)
     User.find_by username: username
+  end
+
+  def user_exists?(user_id)
+    !find_user(user_id).nil?
   end
 
   def user_cred_valid?(uname, password)
