@@ -1,5 +1,19 @@
 get '/login' do
-  erb :login, :locals=>{:message => nil}
+  username = params[:username]
+  password = params[:password]
+  if username.nil? || password.nil?
+    erb :login, :locals=>{:message => nil}
+  else
+    @user = User.find_by(username: username)
+    if @user.nil?
+      erb :login, :locals=>{:message => Messages::USER_NOT_EXIST}
+    elsif restore_password(@user.password) != password
+      erb :login, :locals=>{:message => Messages::WRONG_PASSWORD}
+    else
+      session[:id] = @user.id
+      redirect '/home'
+    end
+  end
 end
 
 post '/login' do
