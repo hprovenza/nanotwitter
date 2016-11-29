@@ -1,7 +1,6 @@
 get '/' do
   if session[:id].nil?
     if !page_cache_exist('index')
-      recent_tweets = read_recent_tweets(0, 49)
       cache_index_page
     end
       read_cached_page('index')
@@ -11,7 +10,6 @@ get '/' do
       redirect '/home'
     else
       if !page_cache_exist('index')
-        recent_tweets = read_recent_tweets(0, 49)
         cache_index_page
       end
       read_cached_page('index')

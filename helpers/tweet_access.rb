@@ -1,20 +1,51 @@
-module PostTweet 
+module TweetAccess
+  def find_tweet(tweet_id)
+    Tweet.find_by id: tweet_id
+  end
+
+  def find_tweets_by_user(user_id, limit=10)
+    tweets = Tweet.where("user_id = ?", user_id)
+    if tweets.nil?
+      return nil
+    else
+      return tweets.order(created_at: :desc).first(limit)
+    end
+  end
+
   def create_tweet(user_id, text)
     t = Tweet.new({:user_id=>user_id, :text=>text})
     return t
   end
 
+  def get_tweet_info_api(tweet)
+    info = {"id": tweet.id,
+            "text": tweet.text,
+            "user_id": tweet.user_id,
+            "created_at": tweet.created_at.to_s
+    }
+    info
+  end
+
+  def get_tweet_info_timeline(user, tweet)
+    info = {"text": tweet.text,
+            "user_id": user.id,
+            "created_at": tweet.created_at.to_s,
+            "username": user.username
+    }
+    info
+  end
+
+  def get_recent_tweets(limit=50)
+    return Tweet.order(created_at: :desc).first(limit)
+  end
+
   def update_recent(user, tweet)
     # user: a user object
     # tweet: a tweet object
-    info = {"text": tweet.text,
-            "created_at": tweet.created_at.to_s,
-            "user_id": user.id,
-            "username": user.username
-    }
+    info = get_tweet_info_timeline(user, tweet)
     cache_list("recent", info.to_json)
   end
-  
+
   def update_timeline(tl_owner_id, tweet_json)
     cache_list('timeline_'+tl_owner_id.to_s, tweet_json)
   end
@@ -22,11 +53,7 @@ module PostTweet
   def update_follower_timelines(user, tweet)
     # given a user and the tweet posted by that user
     # cache the timelines of the users forllowing this user
-    info = {"text": tweet.text,
-            "created_at": tweet.created_at.to_s,
-            "user_id": user.id,
-            "username": user.username
-    }
+    info = get_tweet_info_timeline(user, tweet)
     followers = get_followers(user)
     followers.each do |f|
       update_timeline(f.id, info.to_json)
@@ -41,5 +68,5 @@ module PostTweet
     if ($redis.llen key) > limit
       $redis.rpop key
     end
-  end 
+  end
 end

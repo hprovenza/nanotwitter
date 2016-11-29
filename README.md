@@ -1,5 +1,6 @@
 # nanoTwitter
 [ ![Codeship Status for hprovenza/nanotwitter](https://app.codeship.com/projects/0c2a7590-6979-0134-49f8-0611f7075927/status?branch=master)](https://app.codeship.com/projects/176722)
+[![Code Climate](https://codeclimate.com/github/hprovenza/nanotwitter/badges/gpa.svg)](https://codeclimate.com/github/hprovenza/nanotwitter)
 
 nanoTwitter(nT) is a project for the class CS105b - Software Engineering for Scalability at Brandeis Univerisity.
 It is a baby version of Twitter designed for the purpose of experimenting with scaling issues.

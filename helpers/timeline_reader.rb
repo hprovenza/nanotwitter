@@ -24,6 +24,10 @@ module TimelineReader
     $redis.exists key
   end
 
+  def reset_timeline_cache(user_id)
+    $redis.del "timeline_#{user_id}"
+  end
+
   def init_timeline_cache(user, limit)
     followed_user_ids = user.followed_users.map {|u| u.id}
     followed_tweets = Tweet.where(user_id:followed_user_ids).order(created_at: :desc).first(limit)
