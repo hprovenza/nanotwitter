@@ -36,7 +36,7 @@ helpers do
           username[-1] = i.to_s
         end
       end
-      user = User.new({:id => id, :username => username, :first_name => first_name})
+      user = User.new({:id => id, :username => username, :first_name => first_name, :password => make_hash('password')})
       user.save
       Follow.new({:user_id => user.id, :followed_user_id => user.id}).save
     end
