@@ -1,0 +1,19 @@
+\documentclass[]{article}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{COSI105b}
+\chead{nanoTwitter v1.0 update}
+\rhead{Team Reptile Splash}
+
+\begin{document}
+\begin{enumerate}
+	\item[1.]
+	We have implemented all the key functionalities and cached index page and home page with Redis to help on site scalability. Load test also shows significant improvement than calling directly from database. Codeclimate badge is up, with a score of 3.4. We did some refactoring to fix bad code smells to achieve this score. Client library should also be working. 
+	\item[2.]
+	We had some problems figuring out how to do a post request on load test, but eventually solved this issue.
+	\item[3.]
+	The remaining problem is to try microservice, concurrency, queueing and other tools to improve scalability.
+\end{enumerate}
+\end{document}

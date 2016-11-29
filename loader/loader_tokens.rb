@@ -5,3 +5,7 @@ end
 get '/loaderio-6051eff7d0027b4ef27e6eacbfd6e4bd/' do
   "loaderio-6051eff7d0027b4ef27e6eacbfd6e4bd"
 end
+
+get '/loaderio-25df39ce112b20296dd11c21d6003f2a/' do
+  "loaderio-25df39ce112b20296dd11c21d6003f2a"
+end
