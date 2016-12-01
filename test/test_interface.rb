@@ -58,10 +58,7 @@ helpers do
   def load_seed_follows(filepath)
     CSV.foreach(filepath) do |row|
       user_id, followed_user_id = row
-      if !Follow.find_by(user_id: user_id, followed_user_id: followed_user_id).nil?
-        Follow.new({:user_id => user_id,
-                    :followed_user_id => followed_user_id}).save
-      end
+      Follow.new({:user_id => user_id, :followed_user_id => followed_user_id}).save
     end
   end
 
