@@ -5,6 +5,8 @@
 nanoTwitter(nT) is a project for the class CS105b - Software Engineering for Scalability at Brandeis Univerisity.
 It is a baby version of Twitter designed for the purpose of experimenting with scaling issues.
 
+ http://hprovenza.github.io/nanotwitter/
+
 ## Authors
 
 * **Hannah Provenza** - Brandeis University

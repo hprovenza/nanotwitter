@@ -57,6 +57,7 @@ module TweetAccess
     followers = get_followers(user)
     followers.each do |f|
       update_timeline(f.id, info.to_json)
+      cache_home_page(f)
     end
   end
 

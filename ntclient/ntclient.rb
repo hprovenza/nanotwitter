@@ -3,13 +3,15 @@ require 'json'
 
 class NanoTwitter
   API_VER = "v1"
-  ENVIRONMENT = 'prod'
   PROD_URI = "https://reptilesplash.herokuapp.com/api/#{API_VER}"
   TEST_URI = "http://localhost:4567/api/#{API_VER}"
-  if ENVIRONMENT == 'prod'
-    BASE_URI = PROD_URI
-  else
-    BASE_URI = TEST_URI
+  def initialize(env='prod')
+    @env = env 
+    if @env == 'prod'
+      @base_uri = PROD_URI
+    else
+      @base_uri = TEST_URI
+    end
   end
   
   def get_request(uri_str, params=nil)
@@ -58,27 +60,27 @@ class NanoTwitter
   end
 
   def get_tweet(tweet_id)
-    res = get_request("#{BASE_URI}/tweets/t/#{tweet_id}")
+    res = get_request("#{@base_uri}/tweets/t/#{tweet_id}")
     parse_response(res)
   end
 
   def get_user(user_id)
-    res = get_request("#{BASE_URI}/users/u/#{user_id}")
+    res = get_request("#{@base_uri}/users/u/#{user_id}")
     parse_response(res)
   end
 
   def get_followed_users(user_id)
-    res = get_request("#{BASE_URI}/users/u/#{user_id}/following")
+    res = get_request("#{@base_uri}/users/u/#{user_id}/following")
     parse_response(res)
   end
 
   def get_followers(user_id)
-    res = get_request("#{BASE_URI}/users/u/#{user_id}/followers")
+    res = get_request("#{@base_uri}/users/u/#{user_id}/followers")
     parse_response(res)
   end
 
   def get_user_tweets(user_id)
-    res = get_request("#{BASE_URI}/users/u/#{user_id}/tweets")
+    res = get_request("#{@base_uri}/users/u/#{user_id}/tweets")
     parse_response(res)
   end
 
@@ -88,7 +90,7 @@ class NanoTwitter
     # password: the password for the following user
     # returns the info about the followed user, empty hash if user does not 
     # exist
-    req_uri = "#{BASE_URI}/users/follow"
+    req_uri = "#{@base_uri}/users/follow"
     params = {:user_id=>followee_id}
     res = post_with_auth(req_uri, params, username, password)
     parse_response(res)
@@ -100,14 +102,14 @@ class NanoTwitter
     # password: the password for the following user
     # returns the info about the followed user, empty hash if user does not 
     # exist
-    req_uri = "#{BASE_URI}/users/unfollow"
+    req_uri = "#{@base_uri}/users/unfollow"
     params = {:user_id=>followee_id}
     res = post_with_auth(req_uri, params, username, password)
     parse_response(res)
   end
 
   def post_tweet(text, username, password)
-    req_uri = "#{BASE_URI}/tweets/update"
+    req_uri = "#{@base_uri}/tweets/update"
     params = {:text => text}
     res = post_with_auth(req_uri, params, username, password)
     parse_response(res)

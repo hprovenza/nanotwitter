@@ -8,8 +8,12 @@ get '/home' do
   if @user.nil?
     redirect '/'
   else
-    tl = read_timeline(@user, 0, 49)
-    erb :home, :locals => {:tl_tweets => tl}
+    if !home_page_cache_exists?(@user)
+      tl = read_timeline(@user, 0, 49)
+      erb :home, :locals => {:tl_tweets => tl}
+    else
+      read_cached_home_page(@user)
+    end
   end
 end
 
@@ -18,6 +22,7 @@ post '/home' do
   t = create_tweet(@user.id, params[:tweet])
   t.save
   update_recent(@user, t)
+  cache_home_page(@user)
   cache_index_page
   # update the cache for the timeline of each follower
   update_follower_timelines(@user, t)

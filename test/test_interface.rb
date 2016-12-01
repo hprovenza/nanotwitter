@@ -24,6 +24,10 @@ helpers do
     $redis.flushall
   end
 
+  def test_tweet(user_id)
+    Tweet.new({:user_id => user_id, :text => 'test text'}).save
+  end
+
   def load_seed_user(filepath)
     CSV.foreach(filepath) do |row|
       id, first_name = row
@@ -36,7 +40,7 @@ helpers do
           username[-1] = i.to_s
         end
       end
-      user = User.new({:id => id, :username => username, :first_name => first_name})
+      user = User.new({:id => id, :username => username, :first_name => first_name, :password => make_hash('password')})
       user.save
       Follow.new({:user_id => user.id, :followed_user_id => user.id}).save
     end
@@ -48,15 +52,13 @@ helpers do
       t = Tweet.new({:user_id => user_id, :text => tweet,
         :created_at => time, :updated_at => time})
       t.save
-      tweet_id = t.id.to_s
     end
   end
 
   def load_seed_follows(filepath)
     CSV.foreach(filepath) do |row|
       user_id, followed_user_id = row
-      Follow.new({:user_id => user_id,
-                  :followed_user_id => followed_user_id}).save
+      Follow.new({:user_id => user_id, :followed_user_id => followed_user_id}).save
     end
   end
 
@@ -112,7 +114,7 @@ get '/test/users/create' do
     count -= 1
     tweets_each = tweets
     while tweets_each > 0 do
-      new_tweet = Tweet.new({:user_id => user.id, :text => fake_tweet}).save
+      Tweet.new({:user_id => user.id, :text => fake_tweet}).save
       tweets_each -= 1
     end
   end
@@ -121,7 +123,7 @@ end
 
 get '/test/user/:user_name/tweets' do
   count = (params[:count] || 0).to_i
-  user = User.find_by("username = ?", user_name)
+  user = User.find_by("username = ?", params[:user_name])
   if !user.nil?
     while count > 0 do
       Tweet.new({:user_id => user.id, :text => fake_tweet}).save
