@@ -37,4 +37,9 @@ module PageCache
     name = "timeline_#{user.id}"
     cache_page(name, :home, {:tl_tweets => timeline})
   end
+
+  def cache_follower_homepages(user)
+    followers = get_followers(user)
+    followers.map {|u| cache_home_page(u)}
+  end
 end
