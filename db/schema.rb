@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20161103152821) do
     t.string   "bio"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "avatar_url"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
