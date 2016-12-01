@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[4.2]
       t.string :password
       t.string :bio
       t.timestamps
+      t.string :avatar_url
     end
   end
 
