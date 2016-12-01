@@ -12,15 +12,12 @@
 
 ActiveRecord::Schema.define(version: 20161103152821) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "follows", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "followed_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["user_id", "followed_user_id"], name: "index_follows_on_user_id_and_followed_user_id", unique: true, using: :btree
+    t.index ["user_id", "followed_user_id"], name: "index_follows_on_user_id_and_followed_user_id", unique: true
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -28,7 +25,7 @@ ActiveRecord::Schema.define(version: 20161103152821) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["user_id"], name: "index_tweets_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,8 +38,8 @@ ActiveRecord::Schema.define(version: 20161103152821) do
     t.string   "avatar_url"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
 end
