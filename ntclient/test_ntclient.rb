@@ -11,7 +11,6 @@ class NTTest2 < MiniTest::Unit::TestCase
   end
 
   def setup
-    get '/test/reset/all'
     $nt = NanoTwitter.new
   end
 
