@@ -1,6 +1,6 @@
 get '/' do
   if session[:id].nil?
-    if !page_cache_exist('index')
+    if !page_cache_exists?('index')
       cache_index_page
     end
       read_cached_page('index')
@@ -9,7 +9,7 @@ get '/' do
     if !@user.nil?
       redirect '/home'
     else
-      if !page_cache_exist('index')
+      if !page_cache_exists?('index')
         cache_index_page
       end
       read_cached_page('index')

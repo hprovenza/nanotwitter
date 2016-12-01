@@ -8,8 +8,13 @@ module PageCache
     $redis.set key, page
   end
   
-  def page_cache_exist(name)
+  def page_cache_exists?(name)
     cache_exist 'page_'+name
+  end
+
+  def home_page_cache_exists?(user)
+    name = "timeline_#{user.id}"
+    page_cache_exists?(name)
   end
 
   def read_cached_page(name)
@@ -17,8 +22,19 @@ module PageCache
     $redis.get key
   end
 
+  def read_cached_home_page(user)
+    name = "timeline_#{user.id}"
+    read_cached_page(name)
+  end
+
   def cache_index_page
     recent_tweets = read_recent_tweets(0, 49)
     cache_page('index', :index, {:recent_tweets => recent_tweets})
+  end
+
+  def cache_home_page(user)
+    timeline = read_timeline(user, 0, 49)
+    name = "timeline_#{user.id}"
+    cache_page(name, :home, {:tl_tweets => timeline})
   end
 end
