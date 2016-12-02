@@ -27,7 +27,7 @@
     </div>
     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="/home">Home</a></li>
-      <li><a href="/user/<%= session[:id] %>">My Tweets</a></li>
+      <li><a href="/user/<%= @user.id %>">My Tweets</a></li>
       <li><a href="/browse">Browse</a></li>
       <li><a href="/search">Search</a></li>
       <li><a href="/settings">Settings</a></li>

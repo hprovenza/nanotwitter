@@ -19,14 +19,14 @@ post '/home' do
   @user = User.find(session[:id])
   t = create_tweet(@user.id, params[:tweet])
   t.save
-  # only updating followers' timelines since the user is a follower of themself.
-  update_follower_timelines(@user, t)
-  cache_follower_homepages(@user)
-  update_recent(@user, t)
-  cache_index_page
+  # # only updating followers' timelines since the user is a follower of themself.
+  # update_follower_timelines(@user, t)
+  # cache_follower_homepages(@user)
+  # update_recent(@user, t)
+  # cache_index_page
 
   #TODO: need to figure out where and what to send?
-  $channel.default_exchange.publish(params[:tweet], :routing_key => $q.name)
+  $channel.default_exchange.publish(session[:id].to_s+ "-|SEP|-" + params[:tweet], :routing_key => $q.name)
 
   redirect '/home'
 end
