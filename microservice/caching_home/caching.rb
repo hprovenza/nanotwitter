@@ -1,4 +1,4 @@
-# require "bunny"
+require "bunny"
 
 class CacheConsumer
 
@@ -12,7 +12,7 @@ class CacheConsumer
     @q = @channel.queue("reptile_caching_service")
   end
 
-  def receive
+  def consume
     @q.subscribe(:block => true) do |delivery_info, properties, body|
 
   	puts "Received #{body}"
@@ -26,4 +26,4 @@ end
 cc = CacheConsumer.new ENV["RABBITMQ_BIGWIG_RX_URL"]
 cc.declare_queue "reptile_caching_service"
 puts "LISTENING TO QUEUE: reptile_caching_service"
-cc.receive
+cc.consume
