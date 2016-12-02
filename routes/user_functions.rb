@@ -26,7 +26,7 @@ post '/home' do
   # cache_index_page
 
   #TODO: need to figure out where and what to send?
-  $channel.default_exchange.publish(session[:id].to_s+ "-|SEP|-" + params[:tweet], :routing_key => $q.name)
+  $channel.default_exchange.publish(session[:id].to_s+ "-|SEP|-" + t.id.to_s, :routing_key => $q.name)
 
   redirect '/home'
 end

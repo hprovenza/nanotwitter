@@ -23,10 +23,11 @@ class CacheConsumer
   	puts "Received #{body}"
     # should send body to redis here
 
-    id, tweet = body.split "-|SEP|-"
-    # @user = User.find(id)
+    u_id, t_id = body.split "-|SEP|-"
+    @user = User.find(u_id)
     # t = create_tweet(id, tweet)
     # t.save
+    t = Tweet.find(t_id)
 
     # only updating followers' timelines since the user is a follower of themself.
     update_follower_timelines(@user, t)
