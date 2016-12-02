@@ -24,7 +24,10 @@ post '/home' do
   cache_follower_homepages(@user)
   update_recent(@user, t)
   cache_index_page
-  
+
+  #TODO: need to figure out where and what to send?
+  $channel.default_exchange.publish(params[:tweet], :routing_key => $q.name)
+
   redirect '/home'
 end
 
