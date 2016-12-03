@@ -17,11 +17,12 @@ get '/login' do
       session[:id] = @user.id
       t = create_tweet(@user.id, rand(10))
       t.save
-      update_recent(@user, t)
-      cache_home_page(@user)
-      cache_index_page
+      # update_recent(@user, t)
+      # cache_home_page(@user)
+      # cache_index_page
       # update the cache for the timeline of each follower
-      update_follower_timelines(@user, t)
+      # update_follower_timelines(@user, t)
+      $channel.default_exchange.publish(session[:id].to_s + "-|SEP|-" + t.id.to_s, :routing_key => $q.name)
       redirect '/home'
     end
   end
