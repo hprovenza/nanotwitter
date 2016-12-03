@@ -30,22 +30,14 @@ class CacheConsumer
     t = Tweet.find(t_id)
 
     # only updating followers' timelines since the user is a follower of themself.
-    update_follower_timelines(@user, t)
-
-
-    cache_follower_homepages(@user)
     update_recent(@user, t)
     cache_index_page
-
+    update_follower_timelines(@user, t)
+    cache_follower_homepages(@user)
     end
   end
 
 end
-
-u = User.find(0)
-t = Tweet.new
-puts u.username
-puts get_tweet_info_timeline u, t
 
 cc = CacheConsumer.new ENV["RABBITMQ_BIGWIG_RX_URL"]
 cc.declare_queue "reptile_caching_service"

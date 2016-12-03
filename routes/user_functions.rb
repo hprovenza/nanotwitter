@@ -26,7 +26,7 @@ post '/home' do
   # cache_index_page
 
   #TODO: need to figure out where and what to send?
-  $channel.default_exchange.publish(session[:id].to_s+ "-|SEP|-" + t.id.to_s, :routing_key => $q.name)
+  $channel.default_exchange.publish(session[:id].to_s + "-|SEP|-" + t.id.to_s, :routing_key => $q.name)
 
   redirect '/home'
 end
@@ -64,6 +64,14 @@ post '/update_relation' do
   end
   # need to reset timeline cache here
   reset_timeline_cache session[:id]
+  @user = User.find session[:id]
+  init_timeline_cache @user, 50
+  cache_home_page @user
+
+  reset_page_cache settings.cached_id
+  # @followed_user = User.find settings.cached_id
+  # init_timeline_cache @followed_user, 50
+  # cache_home_page @followed_user
   redirect "/user/#{settings.cached_id}"
 end
 

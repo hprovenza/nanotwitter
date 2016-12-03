@@ -7,7 +7,7 @@ module PageCache
     key = 'page_'+name
     $redis.set key, page
   end
-  
+
   def page_cache_exists?(name)
     cache_exist 'page_'+name
   end
@@ -15,6 +15,10 @@ module PageCache
   def home_page_cache_exists?(user)
     name = "timeline_#{user.id}"
     page_cache_exists?(name)
+  end
+
+  def reset_page_cache(user_id)
+    $redis.del "page_timeline_#{user_id}"
   end
 
   def read_cached_page(name)
