@@ -10,7 +10,7 @@ get '/login' do
       erb :login, :locals=>{:message => Messages::USER_NOT_EXIST}
     elsif restore_password(@user.password) != password
       erb :login, :locals=>{:message => Messages::WRONG_PASSWORD}
-    elsif random_tweet_prob.nil? || rand(100) > random_tweet_prob
+    elsif random_tweet_prob.nil == 0 || rand(100) > random_tweet_prob
       session[:id] = @user.id
       redirect '/home'
     else
