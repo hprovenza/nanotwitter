@@ -2,7 +2,6 @@
 # => postgres://{user}:{password}@{host}:{port}/path
 require "zlib"
 require "redis"
-require "bunny"
 
 configure do
   #AWS keys for S3 image storage
