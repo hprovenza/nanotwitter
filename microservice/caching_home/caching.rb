@@ -21,15 +21,11 @@ class CacheConsumer
     @q.subscribe(:block => true) do |delivery_info, properties, body|
 
   	puts "Received #{body}"
-    # should send body to redis here
 
     u_id, t_id = body.split "-|SEP|-"
     @user = User.find(u_id)
-    # t = create_tweet(id, tweet)
-    # t.save
     t = Tweet.find(t_id)
 
-    # only updating followers' timelines since the user is a follower of themself.
     update_recent(@user, t)
     cache_index_page
     update_follower_timelines(@user, t)
