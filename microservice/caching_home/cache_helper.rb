@@ -60,6 +60,10 @@ module CacheHelper
     page_cache_exists?(name)
   end
 
+  def reset_page_cache(user_id)
+    $redis.del "page_timeline_#{user_id}"
+  end
+
   def read_cached_page(name)
     key = 'page_'+name
     $redis.get key
