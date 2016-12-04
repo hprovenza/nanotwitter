@@ -12,12 +12,6 @@ configure do
 
   #Redis
   $redis = Redis.new(:url => ENV["REDISTOGO_URL"])
-
-  #RabbitMQ
-  $producer = Bunny.new(ENV['RABBITMQ_BIGWIG_TX_URL'])
-  $producer.start
-  $channel = $producer.create_channel
-  $q = $channel.queue("reptile_caching_service")
 end
 
 configure :production, :development do

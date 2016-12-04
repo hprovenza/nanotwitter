@@ -19,14 +19,10 @@ post '/home' do
   @user = User.find(session[:id])
   t = create_tweet(@user.id, params[:tweet])
   t.save
-  # # only updating followers' timelines since the user is a follower of themself.
-  # update_follower_timelines(@user, t)
-  # cache_follower_homepages(@user)
-  # update_recent(@user, t)
-  # cache_index_page
-
-  $channel.default_exchange.publish(session[:id].to_s + "-|SEP|-" + t.id.to_s, :routing_key => $q.name)
-
+  update_recent(@user, t)
+  cache_index_page
+  update_follower_timelines(@user, t)
+  cache_follower_homepages(@user)
   redirect '/home'
 end
 
@@ -61,16 +57,13 @@ post '/update_relation' do
     d = Follow.find_by(:user_id=>session[:id], :followed_user_id=>settings.cached_id)
     !d.nil? ? d.destroy : "Error deleting follow"
   end
-  # need to reset timeline cache here
+  # reset timeline cache
   reset_timeline_cache session[:id]
   @user = User.find session[:id]
   init_timeline_cache @user, 50
   cache_home_page @user
-
+  # reset followed user timeline cache
   reset_page_cache settings.cached_id
-  # @followed_user = User.find settings.cached_id
-  # init_timeline_cache @followed_user, 50
-  # cache_home_page @followed_user
   redirect "/user/#{settings.cached_id}"
 end
 
