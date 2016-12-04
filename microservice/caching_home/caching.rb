@@ -27,7 +27,6 @@ class CacheConsumer
     update_recent(@user, t)
     cache_index_page
     update_follower_timelines(@user, t)
-    cache_follower_homepages(@user)
     end
   end
 
