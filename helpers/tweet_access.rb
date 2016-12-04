@@ -52,12 +52,18 @@ module TweetAccess
 
   def update_follower_timelines(user, tweet)
     # given a user and the tweet posted by that user
-    # cache the timelines of the users forllowing this user
+    # update the timeline caches of real followers
+    # invalidates the page caches of real followers
+    # update current user's timeline and page cache
     info = get_tweet_info_timeline(user, tweet)
     followers = get_followers(user)
     followers.each do |f|
       update_timeline(f.id, info.to_json)
-      cache_home_page(f)
+      if f.id == user.id
+        cache_home_page f
+      else
+        reset_page_cache f.id
+      end
     end
   end
 

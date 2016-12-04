@@ -21,8 +21,11 @@ post '/home' do
   t.save
   update_recent(@user, t)
   cache_index_page
+
+  # this function now updates current user's timeline and homepage cache
+  # however, it updates followers' timelines and invalidates followers' page
+  # cache, the reason is restructing erb fills in current user's tweets
   update_follower_timelines(@user, t)
-  cache_follower_homepages(@user)
   redirect '/home'
 end
 
