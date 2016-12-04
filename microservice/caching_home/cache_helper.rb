@@ -1,5 +1,4 @@
 require "erb"
-# require "sinatra"
 
 module CacheHelper
 

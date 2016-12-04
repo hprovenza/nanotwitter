@@ -1,8 +1,6 @@
 require "bunny"
-# require "sinatra/activerecord"
 require_relative "../../app"
 require_relative "./cache_helper"
-# require_relative "../../helpers/init"
 include CacheHelper
 
 class CacheConsumer
