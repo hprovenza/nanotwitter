@@ -5,7 +5,7 @@ get '/login' do
   if username.nil? || password.nil?
     erb :login, :locals=>{:message => nil}
   else
-    @user = User.find_by(username: username)
+    @user = get_cached_user(username) || cache_user(User.find_by(username: username))
     if @user.nil?
       erb :login, :locals=>{:message => Messages::USER_NOT_EXIST}
     elsif restore_password(@user.password) != password
