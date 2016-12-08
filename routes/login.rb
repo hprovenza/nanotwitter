@@ -12,9 +12,11 @@ get '/login' do
       erb :login, :locals=>{:message => Messages::WRONG_PASSWORD}
     elsif random_tweet_prob == 0 || rand(100) > random_tweet_prob
       session[:id] = @user.id
+      session[:logged_in_user] = @user.username
       redirect '/home'
     else
       session[:id] = @user.id
+      session[:id] = @user.username
       t = create_tweet(@user.id, rand(10))
       t.save
       $channel.default_exchange.publish(session[:id].to_s + "-|SEP|-" + t.id.to_s, :routing_key => $q.name)
