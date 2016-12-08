@@ -6,6 +6,7 @@ require_relative 'timeline_reader'
 require_relative 'messages'
 require_relative 'page_cache'
 require_relative 'request_auth'
+require_relative 'user_cache'
 
 helpers PassEncrypt
 helpers RequestAuth
@@ -14,3 +15,4 @@ helpers UserAccess
 helpers FollowFunctions
 helpers TimelineReader
 helpers PageCache
+helpers UserCache

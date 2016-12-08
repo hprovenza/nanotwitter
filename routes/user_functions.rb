@@ -4,7 +4,7 @@ get '/home' do
   if session[:id].nil?
     redirect '/'
   end
-  @user = User.find(session[:id])
+  @user = get_cached_user(session[:logged_in_user]) || User.find(session[:id])
   if @user.nil?
     redirect '/'
   else
