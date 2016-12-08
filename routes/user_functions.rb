@@ -4,7 +4,7 @@ get '/home' do
   if session[:id].nil?
     redirect '/'
   end
-  @user = User.find(session[:id])
+  @user = get_cached_user(session[:logged_in_user]) || User.find(session[:id])
   if @user.nil?
     redirect '/'
   else
@@ -16,7 +16,7 @@ get '/home' do
 end
 
 post '/home' do
-  @user = User.find(session[:id])
+  @user = get_cached_user(session[:logged_in_user]) || User.find(session[:id])
   t = create_tweet(@user.id, params[:tweet])
   t.save
   $channel.default_exchange.publish(session[:id].to_s + "-|SEP|-" + t.id.to_s, :routing_key => $q.name)

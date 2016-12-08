@@ -5,7 +5,7 @@ get '/login' do
   if username.nil? || password.nil?
     erb :login, :locals=>{:message => nil}
   else
-    @user = User.find_by(username: username)
+    @user = get_cached_user(username) || cache_user(User.find_by(username: username))
     if @user.nil?
       erb :login, :locals=>{:message => Messages::USER_NOT_EXIST}
     elsif restore_password(@user.password) != password
@@ -24,13 +24,15 @@ get '/login' do
 end
 
 post '/login' do
-  @user = User.find_by(username: params[:user][:username])
+  username = params[:user][:username]
+  @user = get_cached_user(username) || cache_user(User.find_by(username: username))
   if @user.nil?
     erb :login, :locals=>{:message => Messages::USER_NOT_EXIST}
   elsif restore_password(@user.password) != params[:user][:password]
     erb :login, :locals=>{:message => Messages::WRONG_PASSWORD}
   else
     session[:id] = @user.id
+    session[:logged_in_user] = username
     redirect '/home'
   end
 end
