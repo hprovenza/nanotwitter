@@ -5,7 +5,7 @@ module UserCache
 
   def get_cached_user(username)
     # read from cache and deserialize the user object
-    if !user_cache_exists? username
+    if username.nil? || !user_cache_exists?(username)
       return nil
     end
     key = 'user_'+username
